@@ -7,9 +7,9 @@ class App extends React.Component {
     this.state = {
       inputValue: "",
       todoList: [
-        { name: "complete", done: true},
-        { name: "react", done: true },
-        { name: "project", done: true},
+       {id:1, name: "complete", done: true },
+        {id:2, name: "react", done: true },
+        {id:3, name: "project", done: true },
       ],
     };
   }
@@ -30,21 +30,28 @@ class App extends React.Component {
     }
   };
   deleteTodo = (index) => {
-
     this.setState({
       todoList: this.state.todoList.splice(index),
     });
     console.log(index);
   };
 
-  clearCompleted = () =>{
-    const filteredArray =  this.state.todoList.filter(todo => todo.done !== true )
+  clearCompleted = () => {
+    const filteredArray = this.state.todoList.filter(
+      (todo) => todo.done !== true
+    );
     console.log(filteredArray);
-    this.setState({todoList: filteredArray})
+    this.setState({ todoList: filteredArray });
+  };
+
+  handlecheck = (index) =>{
+    console.log(index);
+    let checkedline = this.state.todoList[index]
+    console.log(checkedline);
   }
 
   render() {
-    const itemsLength = this.state.todoList.length
+    const itemsLength = this.state.todoList.length;
     return (
       <div className="App">
         <div className="heading">todo's...</div>
@@ -52,27 +59,31 @@ class App extends React.Component {
           <input
             className="inputcheck"
             placeholder="what needs  to be done?"
-            value={this.state.input}
+            value={this.state.inputValue}
             onChange={(event) => this.handleChange(event)}
           />
           <button onClick={this.submitValue}>Enter</button>
         </div>
         <div className="list-items ">
           {this.state.todoList.map((todoList, index) => (
-            <div className="delete">
+            <div className="delete" key={todoList.id} > 
               <div className="checkbox">
-                <input type="checkbox" id="check" checked={todoList.done} />
+                <input type="checkbox" id="check" checked={todoList.done} onClick ={() => this.handlecheck(index)} />
                 <label htmlFor="check"> {todoList.name} </label>
               </div>
-              <div className="destroy" onClick={() => this.deleteTodo(index)}>x</div>
+              <div className="destroy" onClick={() => this.deleteTodo(index)}>
+                x
+              </div>
             </div>
           ))}
           <div>
-          <div className="footer-buttons">{itemsLength} items left </div>
+            <button className="footer-buttons">{itemsLength} items left </button>
             <button className="footer-buttons">All</button>
             <button className="footer-buttons">Active</button>
             <button className="footer-buttons">completed</button>
-            <button className="footer-buttons" onClick ={this.clearCompleted} >clear completed</button>
+            <button className="footer-buttons" onClick={this.clearCompleted}>
+              clear completed
+            </button>
           </div>
         </div>
       </div>
