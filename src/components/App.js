@@ -1,5 +1,6 @@
 import React from "react";
 import "./app.css";
+import { v4 as uuidv4 } from "uuid";
 
 class App extends React.Component {
   constructor(props) {
@@ -7,9 +8,9 @@ class App extends React.Component {
     this.state = {
       inputValue: "",
       todoList: [
-       {id:1, name: "complete", done: true },
-        {id:2, name: "react", done: true },
-        {id:3, name: "project", done: true },
+        { id: 1, name: "complete", done: true },
+        { id: 2, name: "react", done: true },
+        { id: 3, name: "project", done: true },
       ],
     };
   }
@@ -21,7 +22,7 @@ class App extends React.Component {
       console.log("submited");
       this.setState({
         todoList: [
-          { name: this.state.inputValue, done: false },
+          { name: this.state.inputValue, done: false, id: uuidv4() },
           ...this.state.todoList,
         ],
       });
@@ -29,11 +30,12 @@ class App extends React.Component {
       console.log("todo empty");
     }
   };
-  deleteTodo = (index) => {
+  deleteTodo = (id) => {
+    const filterArray = this.state.todoList.filter((todo) => todo.id !== id);
     this.setState({
-      todoList: this.state.todoList.splice(index),
+      todoList: filterArray,
     });
-    console.log(index);
+    console.log(id, filterArray);
   };
 
   clearCompleted = () => {
@@ -44,14 +46,23 @@ class App extends React.Component {
     this.setState({ todoList: filteredArray });
   };
 
-  handlecheck = (index) =>{
-    console.log(index);
-    let checkedline = this.state.todoList[index]
-    console.log(checkedline);
-  }
+  handlecheck = (id) => {
+    console.log(id);
+    const newArray = this.state.todoList.map((todo) => {
+      if (todo.id === id) {
+        return { ...todo, done: !todo.done };
+      } else {
+        return todo;
+      }
+    });
+    this.setState({ todoList: newArray });
+    // let checkedline = this.state.todoList[index]
+    // console.log();
+  };
 
   render() {
     const itemsLength = this.state.todoList.length;
+    console.log(this.state.todoList);
     return (
       <div className="App">
         <div className="heading">todo's...</div>
@@ -66,18 +77,28 @@ class App extends React.Component {
         </div>
         <div className="list-items ">
           {this.state.todoList.map((todoList, index) => (
-            <div className="delete" key={todoList.id} > 
+            <div className="delete" key={todoList.id}>
               <div className="checkbox">
-                <input type="checkbox" id="check" checked={todoList.done} onClick ={() => this.handlecheck(index)} />
-                <label htmlFor="check"> {todoList.name} </label>
+                <input
+                  type="checkbox"
+                  id="check"
+                  checked={todoList.done}
+                  onChange={() => this.handlecheck(todoList.id)}
+                />
+                <label htmlFor="check-label"> {todoList.name} </label>
               </div>
-              <div className="destroy" onClick={() => this.deleteTodo(index)}>
+              <div
+                className="destroy"
+                onClick={() => this.deleteTodo(todoList.id)}
+              >
                 x
               </div>
             </div>
           ))}
           <div>
-            <button className="footer-buttons">{itemsLength} items left </button>
+            <button className="footer-buttons">
+              {itemsLength} items left{" "}
+            </button>
             <button className="footer-buttons">All</button>
             <button className="footer-buttons">Active</button>
             <button className="footer-buttons">completed</button>
