@@ -1,15 +1,15 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
+import React from "react";
+import ReactDOM from "react-dom";
 
-import App from "./components/App";
+// import App from "./components/App";
+// import User from "./components/User";
+import Issues from "./components/Issues";
+
 // import './index.css';
 // import App from './App';
 // import reportWebVitals from './reportWebVitals';
 
-
-
-ReactDOM.render(<App />, document.getElementById("root")
-);
+ReactDOM.render(<Issues />, document.getElementById("root"));
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))
