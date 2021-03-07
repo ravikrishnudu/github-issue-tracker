@@ -2,6 +2,53 @@ import React from "react";
 import "./app.css";
 import { v4 as uuidv4 } from "uuid";
 
+class Footer extends React.Component {
+  render() {
+    console.log("Footer Render");
+    const { clearCompleted, completed, incompleteCount } = this.props;
+
+    return (
+      <div>
+        <button className="footer-buttons">
+          {incompleteCount} items left{" "}
+        </button>
+        <button className="footer-buttons">All</button>
+        <button className="footer-buttons">Active</button>
+        <button className="footer-buttons" onClick={completed}>
+          completed
+        </button>
+        <button className="footer-buttons" onClick={clearCompleted}>
+          clear completed
+        </button>
+      </div>
+    );
+  }
+}
+
+class Todo extends React.PureComponent {
+  render() {
+    console.log("Todo Render");
+    const { todo, handleCheck, deleteTodo } = this.props;
+    const { done, id, name } = todo;
+    return (
+      <div className="delete">
+        <div className="checkbox">
+          <input
+            type="checkbox"
+            id="check"
+            checked={done}
+            onChange={() => handleCheck(id)}
+          />
+          <label htmlFor="check-label"> {name} </label>
+        </div>
+        <div className="destroy" onClick={() => deleteTodo(id)}>
+          x
+        </div>
+      </div>
+    );
+  }
+}
+
 class App extends React.Component {
   constructor(props) {
     super(props);
@@ -12,26 +59,33 @@ class App extends React.Component {
         { id: 2, name: "react", done: true },
         { id: 3, name: "project", done: true },
       ],
+      filter: "All",
     };
   }
+
   handleChange = (event) => {
     this.setState({ inputValue: event.target.value });
   };
+
   submitValue = () => {
-    if (this.state.inputValue !== "") {
+    const { inputValue, todoList } = this.state;
+    if (inputValue !== "") {
       console.log("submited");
       this.setState({
         todoList: [
-          { name: this.state.inputValue, done: false, id: uuidv4() },
-          ...this.state.todoList,
+          { name: inputValue, done: false, id: uuidv4() },
+          ...todoList,
         ],
       });
     } else {
       console.log("todo empty");
     }
   };
+
   deleteTodo = (id) => {
-    const filterArray = this.state.todoList.filter((todo) => todo.id !== id);
+    const { todoList } = this.state;
+
+    const filterArray = todoList.filter((todo) => todo.id !== id);
     this.setState({
       todoList: filterArray,
     });
@@ -39,16 +93,23 @@ class App extends React.Component {
   };
 
   clearCompleted = () => {
-    const filteredArray = this.state.todoList.filter(
-      (todo) => todo.done !== true
-    );
-    console.log(filteredArray);
+    const { todoList } = this.state;
+
+    const filteredArray = todoList.filter((todo) => todo.done !== true);
+    console.log(todoList);
     this.setState({ todoList: filteredArray });
   };
 
-  handlecheck = (id) => {
+  // completed = () => {
+  //   const completeArray = this.state;
+  // };
+
+  handleCheck = (id) => {
+    const { todoList } = this.state;
+
     console.log(id);
-    const newArray = this.state.todoList.map((todo) => {
+    const newArray = todoList.map((todo) => {
+      console.log(todo);
       if (todo.id === id) {
         return { ...todo, done: !todo.done };
       } else {
@@ -61,8 +122,14 @@ class App extends React.Component {
   };
 
   render() {
-    const itemsLength = this.state.todoList.length;
-    console.log(this.state.todoList);
+    const { todoList, filter, inputValue } = this.state;
+
+    const itemsLength = todoList.length;
+    let filteredTodos;
+    console.log("App render");
+
+    let incompleteCount = todoList.filter((todo) => todo.done === false).length;
+
     return (
       <div className="App">
         <div className="heading">todo's...</div>
@@ -70,42 +137,25 @@ class App extends React.Component {
           <input
             className="inputcheck"
             placeholder="what needs  to be done?"
-            value={this.state.inputValue}
+            value={inputValue}
             onChange={(event) => this.handleChange(event)}
           />
           <button onClick={this.submitValue}>Enter</button>
         </div>
         <div className="list-items ">
-          {this.state.todoList.map((todoList, index) => (
-            <div className="delete" key={todoList.id}>
-              <div className="checkbox">
-                <input
-                  type="checkbox"
-                  id="check"
-                  checked={todoList.done}
-                  onChange={() => this.handlecheck(todoList.id)}
-                />
-                <label htmlFor="check-label"> {todoList.name} </label>
-              </div>
-              <div
-                className="destroy"
-                onClick={() => this.deleteTodo(todoList.id)}
-              >
-                x
-              </div>
-            </div>
+          {todoList.map((todo, index) => (
+            <Todo
+              todo={todo}
+              handleCheck={this.handleCheck}
+              deleteTodo={this.deleteTodo}
+              key={todo.id}
+            />
           ))}
-          <div>
-            <button className="footer-buttons">
-              {itemsLength} items left{" "}
-            </button>
-            <button className="footer-buttons">All</button>
-            <button className="footer-buttons">Active</button>
-            <button className="footer-buttons">completed</button>
-            <button className="footer-buttons" onClick={this.clearCompleted}>
-              clear completed
-            </button>
-          </div>
+          <Footer
+            clearCompleted={this.clearCompleted}
+            completed={this.completed}
+            incompleteCount={incompleteCount}
+          />
         </div>
       </div>
     );
