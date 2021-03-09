@@ -41,7 +41,7 @@ class IssuesRepository extends Component {
 
             {/* {formatDistance(Date.now(), parseISO(issue.created_at))} */}
             <span className="sub-text-user-login">
-              by <a href="#"> {issue.user.login}</a>
+              by <a href="/#"> {issue.user.login}</a>
             </span>
           </div>
         </div>
