@@ -38,8 +38,6 @@ class IssuesRepository extends Component {
               opened {formatDistance(Date.now(), parseISO(issue.updated_at))}{" "}
               ago
             </span>
-
-            {/* {formatDistance(Date.now(), parseISO(issue.created_at))} */}
             <span className="sub-text-user-login">
               by <a href="/#"> {issue.user.login}</a>
             </span>
