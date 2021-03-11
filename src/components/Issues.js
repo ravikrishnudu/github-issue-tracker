@@ -16,7 +16,6 @@ async function getIssues(page = 1) {
 class IssuesRepository extends Component {
   render() {
     const { issue } = this.props;
-    console.log(`${issue.title}`);
     return (
       <div className="issue-repo-container">
         <div className="main-text-body">
@@ -29,9 +28,7 @@ class IssuesRepository extends Component {
             >
               {label.name}
             </span>
-          ))}
-          {/* {issue.labels[0].name} */}
-
+          ))}{" "}
           <div className="sub-text-body">
             <span className="sub-text">#{issue.number}</span>
             <span className="sub-text">
@@ -39,7 +36,11 @@ class IssuesRepository extends Component {
               ago
             </span>
             <span className="sub-text-user-login">
-              by <a href="/#"> {issue.user.login}</a>
+              by{" "}
+              <a href="/#" className="herf-user-tag">
+                {" "}
+                {issue.user.login}
+              </a>
             </span>
           </div>
         </div>
@@ -54,6 +55,7 @@ export default class Issues extends Component {
     this.state = {
       issues: [],
       page: 1,
+      pages: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
     };
   }
 
@@ -64,21 +66,63 @@ export default class Issues extends Component {
     });
   }
 
+  componentDidUpdate(prevProps, prevState) {
+    const { page } = this.state;
+    // console.log(prevState.page, page);
+    if (page !== prevState.page) {
+      getIssues(this.state.page).then((issues) => {
+        this.setState({ issues });
+      });
+    }
+  }
+
+  handlePreviousPage = () => {
+    const { page } = this.state;
+    this.setState({ page: page - 1 });
+    // console.log(page);
+  };
+
+  handleNextPage = () => {
+    const { page } = this.state;
+    this.setState({ page: page + 1 });
+    // console.log(page);
+  };
+
+  handlePage = (currentPage) => {
+    // const { page } = this.state;
+    this.setState({ page: currentPage });
+  };
+
   render() {
     // console.log("Render");
     console.log(this.state.issues);
     // eslint-disable-next-line
-    console.log(process.env.REACT_APP_TOKEN);
-    const { issues } = this.state;
+    // console.log(process.env.REACT_APP_TOKEN);
+    const { issues, pages } = this.state;
     return (
       <div>
         {issues.map((issue) => (
           <IssuesRepository issue={issue} key={issue.id} />
         ))}
-
-        {/* {issue.map((label) => (
-          <IssuesRePository label={label} key={issue.id} />
-        ))} */}
+        <div className="button-container">
+          <button className="previous-button" onClick={this.handlePreviousPage}>
+            {" "}
+            Previous{" "}
+          </button>
+          {pages.map((page, index) => (
+            <button
+              className="num-buttons"
+              onClick={() => this.handlePage(page)}
+              key={index}
+            >
+              {page} {}{" "}
+            </button>
+          ))}
+          <button className="next-button" onClick={this.handleNextPage}>
+            {" "}
+            Next
+          </button>
+        </div>
       </div>
     );
   }
