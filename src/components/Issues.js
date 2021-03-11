@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { Link } from "react-router-dom";
 import { formatDistance, parseISO } from "date-fns";
 import "./Issues.css";
 
@@ -19,7 +20,9 @@ class IssuesRepository extends Component {
     return (
       <div className="issue-repo-container">
         <div className="main-text-body">
-          <span className="title">{issue.title}</span>
+          <span className="title">
+            <Link to={`/issues/${issue.number}`}>{issue.title}</Link>
+          </span>
           {issue.labels.map((label) => (
             <span
               className="tool-components"
@@ -43,7 +46,7 @@ class IssuesRepository extends Component {
               </a>
             </span>
           </div>
-        </div>
+        </div>{" "}
       </div>
     );
   }
@@ -101,9 +104,11 @@ export default class Issues extends Component {
     const { issues, pages } = this.state;
     return (
       <div>
+        {/* <div> */}
         {issues.map((issue) => (
           <IssuesRepository issue={issue} key={issue.id} />
         ))}
+        {/* </div> */}
         <div className="button-container">
           <button className="previous-button" onClick={this.handlePreviousPage}>
             {" "}
