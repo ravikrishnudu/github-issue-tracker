@@ -14,7 +14,7 @@ async function getIssues(page = 1) {
   ).then((res) => res.json());
 }
 
-class IssuesRepository extends Component {
+class Issue extends Component {
   render() {
     const { issue } = this.props;
     return (
@@ -106,7 +106,7 @@ export default class Issues extends Component {
       <div>
         {/* <div> */}
         {issues.map((issue) => (
-          <IssuesRepository issue={issue} key={issue.id} />
+          <Issue issue={issue} key={issue.id} />
         ))}
         {/* </div> */}
         <div className="button-container">
