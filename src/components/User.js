@@ -2,10 +2,10 @@ import React, { Component } from "react";
 import Repositories from "./Repositories";
 import "./User.css";
 
-async function getUser() {
-  return fetch(
-    "https://api.github.com/users" + window.location.pathname
-  ).then((res) => res.json());
+async function getUser(username) {
+  return fetch(`https://api.github.com/users/${username}`).then((res) =>
+    res.json()
+  );
 }
 
 export default class User extends Component {
@@ -15,7 +15,8 @@ export default class User extends Component {
   }
 
   componentDidMount() {
-    getUser().then((user) => {
+    const username = this.props.match.paramas;
+    getUser(username).then((user) => {
       this.setState({ user });
     });
   }
@@ -28,6 +29,7 @@ export default class User extends Component {
     }
 
     console.log(user);
+
     return (
       <div className="main-container">
         <div className="left-contaainer">

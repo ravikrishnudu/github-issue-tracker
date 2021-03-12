@@ -18,10 +18,8 @@ function Main() {
         <Route path="/issues">
           <Issues />
         </Route>
-        <Route path="/usecr">
-          <User />
-        </Route>
-        <Route path="/">
+        <Route path="/: username" component={User} />
+        <Route exact path="/">
           <App />
         </Route>
       </Switch>
