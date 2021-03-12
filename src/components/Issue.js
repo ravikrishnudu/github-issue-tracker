@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-// import { formatDistance, parseISO } from "date-fns";
+import { formatDistance, parseISO } from "date-fns";
 import "./Issue.css";
 
 // import { useParams } from "react-router-dom";
@@ -32,12 +32,13 @@ class Issue extends Component {
   render() {
     const { issue } = this.state;
     console.log(this.state);
-    // if (issue) {
-    //   return <div>Loading....</div>;
-    // } else {
+    if (Object.entries(issue).length === 0) {
+      return <div>Loading....</div>;
+    }
+    // else {
     //   return <div>Loading....</div>;
     // }
-    // const id = this.props.match.params.id;
+    const id = this.props.match.params.id;
     return (
       <div className="main-container">
         <div>
@@ -54,15 +55,15 @@ class Issue extends Component {
             <div className="issue-title-details">
               <button className="open-button">Open</button>
               <div className="user-details">
-                <span className="issue-user-login">{issue.user?.login}</span>
-                <span className="issue-opend-time">
+                <span className="issue-user-login">{issue.user.login}</span>
+                {/* <span className="issue-opend-time">
                   {" "}
                   opened this issue yesterday{"   "}
-                </span>
-                {/* <div>
-            openedthis issue{" "}
-            {formatDistance(Date.now(), parseISO(1615472077557))} ago
-            </div> */}
+                </span> */}
+                <div>
+                  openedthis issue{" "}
+                  {formatDistance(Date.now(), parseISO(issue.updated_at))} ago
+                </div>
                 <span className="issue-comments">
                   {issue.comments} comments
                 </span>
@@ -79,11 +80,11 @@ class Issue extends Component {
                 </div>
                 <div>
                   Labels
-                  {/* {issue.labels.map((label) => (
-              <span style={{ backgroundColor: `#${label.color}` }}>
-                {label.name}
-              </span>
-              ))} */}
+                  {issue.labels.map((label) => (
+                    <span style={{ backgroundColor: `#${label.color}` }}>
+                      {label.name}
+                    </span>
+                  ))}
                 </div>
                 <div>
                   <div>Projects</div>
