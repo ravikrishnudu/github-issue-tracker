@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { formatDistance, parseISO } from "date-fns";
+// import { formatDistance, parseISO } from "date-fns";
 import "./Issue.css";
 
 // import { useParams } from "react-router-dom";
@@ -32,35 +32,50 @@ class Issue extends Component {
   render() {
     const { issue } = this.state;
     console.log(this.state);
-    const id = this.props.match.params.id;
+    // if (issue) {
+    //   return <div>Loading....</div>;
+    // } else {
+    //   return <div>Loading....</div>;
+    // }
+    // const id = this.props.match.params.id;
     return (
       <div className="main-container">
         <div>
           <div>
-            <div>
-              <span className="issue-title">{issue.title}</span>
-              <span className="issue-num"># {issue.number} </span>
-              <spn>
+            <div className="title-body">
+              <div className="title-bar">
+                <span className="issue-title">{issue.title}</span>
+                <span className="issue-num"># {issue.number} </span>
+              </div>
+              <div>
                 <button className="issue-button">New issue</button>
-              </spn>
+              </div>
             </div>
-            <div>
+            <div className="issue-title-details">
               <button className="open-button">Open</button>
-              <span>{issue.user?.login}</span>
-              {/* <div>
+              <div className="user-details">
+                <span className="issue-user-login">{issue.user?.login}</span>
+                <span className="issue-opend-time">
+                  {" "}
+                  opened this issue yesterday{"   "}
+                </span>
+                {/* <div>
             openedthis issue{" "}
             {formatDistance(Date.now(), parseISO(1615472077557))} ago
             </div> */}
-              <span>{issue.comments} comments</span>
+                <span className="issue-comments">
+                  {issue.comments} comments
+                </span>
+              </div>
             </div>
           </div>
           <div className="body-container">
-            <div className="left-cont">{issue.body}</div>
-            <div className="right-cont">
+            <div className="left-container">{issue.body}</div>
+            <div className="right-container">
               <div>
                 <div>
                   <div>Assignees {issue.assignees}</div>
-                  <div>No one assigned</div>
+                  <span>No one assigned</span>
                 </div>
                 <div>
                   Labels
@@ -72,25 +87,23 @@ class Issue extends Component {
                 </div>
                 <div>
                   <div>Projects</div>
-                  <div>None yet</div>
+                  <span>None yet</span>
                 </div>
                 <div>
                   <div>Milestone</div>
-                  <div>None Milestone</div>
+                  <span>None Milestone</span>
                 </div>
                 <div>
                   <div>Linked pull requests</div>
-                  <div>
-                    Sucessfully merging a pull request may close this issue
-                  </div>
-                  <div>None yet</div>
+                  <p>Sucessfully merging a pull request may close this issue</p>
+                  <span>None yet</span>
                 </div>
               </div>
               <div>
                 <span>Notifications</span>
                 <span>Customize</span>
                 <button>Subscribe</button>
-                <div>You’re not receiving notifications from this thread.</div>
+                <p>You’re not receiving notifications from this thread.</p>
               </div>
             </div>
           </div>
