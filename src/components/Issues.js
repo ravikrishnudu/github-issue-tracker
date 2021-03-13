@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { formatDistance, parseISO } from "date-fns";
 import "./Issues.css";
+import Labels from "./Labels";
 
 async function getIssues(page = 1) {
   return fetch(
@@ -17,13 +18,15 @@ async function getIssues(page = 1) {
 class Issue extends Component {
   render() {
     const { issue } = this.props;
+    console.log(issue);
     return (
       <div className="issue-repo-container">
         <div className="main-text-body">
           <span className="title">
             <Link to={`/issues/${issue.number}`}>{issue.title}</Link>
           </span>
-          {issue.labels.map((label) => (
+          <Labels labels={issue.labels} />
+          {/* {issue.labels.map((label) => (
             <span
               className="tool-components"
               key={label.id}
@@ -31,7 +34,7 @@ class Issue extends Component {
             >
               {label.name}
             </span>
-          ))}{" "}
+          ))}{" "} */}
           <div className="sub-text-body">
             <span className="sub-text">#{issue.number}</span>
             <span className="sub-text">
@@ -104,11 +107,10 @@ export default class Issues extends Component {
     const { issues, pages } = this.state;
     return (
       <div>
-        {/* <div> */}
         {issues.map((issue) => (
           <Issue issue={issue} key={issue.id} />
         ))}
-        {/* </div> */}
+
         <div className="button-container">
           <button className="previous-button" onClick={this.handlePreviousPage}>
             {" "}
