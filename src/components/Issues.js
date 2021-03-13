@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { formatDistance, parseISO } from "date-fns";
+
 import "./Issues.css";
 import Labels from "./Labels";
 

@@ -1,65 +1,65 @@
 .App {
-    font-family: sans-serif;
-    /* text-align: center; */
-    align-items: center;
-    display: flex;
-    justify-content: center;
-    flex-direction: column;
+  font-family: sans-serif;
+  /* text-align: center; */
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  overflow: hidden;
+}
 
-  }
-
-  body{
-    background-color:  #f5f5f5;
-    height: 100vh;
-    width: 100vw;
-  }
+body {
+  background-color: #f5f5f5;
+  height: 100vh;
+  width: 100vw;
+}
 .heading {
-    font-size: 150px;
-    color: rgba(175, 47, 47, 0.15);
-  }
-  .inputcheck {
-    width: 500px;
-    height: 50px;
-    border-radius: 10px;
-    padding: 10px;
-    border: none;
-    font-size: 33px;
-    box-shadow: 10px 5px 5px rgb(0 0 0 / 18%);
-  }
-  button {
-    font-size: 30px;
-    padding: 10px;
-    border-radius: 10px;
-    margin-left: 20px;
-  }
-    .list-items {
+  font-size: 150px;
+  color: rgba(175, 47, 47, 0.15);
+}
+.inputcheck {
+  width: 500px;
+  height: 50px;
+  border-radius: 10px;
+  padding: 10px;
+  border: none;
+  font-size: 33px;
+  box-shadow: 10px 5px 5px rgb(0 0 0 / 18%);
+}
+button {
+  font-size: 30px;
+  padding: 10px;
+  border-radius: 10px;
+  margin-left: 20px;
+}
+.list-items {
   max-width: 24%;
   /* margin-left: 750px; */
   margin-top: 30px;
   box-shadow: 10px 5px 5px rgb(0 0 0 / 18%);
 
-    /* background-color: gray; */
-  }
-  .delete{
-    padding: 23PX;
-    display: flex;
-    justify-content: space-between;
-  }
-  .checkbox{
-    /* display: flex; */
-    /* margin-left: 15PX; */
-    /* justify-content: space-between; */
-  }
-  .footer-buttons{
-    font-size: 15px;
-    background-color: white;
-    border-style: none;  
-    border-radius: 1px solid lightpink;
-  }
+  /* background-color: gray; */
+}
+.delete {
+  padding: 23px;
+  display: flex;
+  justify-content: space-between;
+}
+.checkbox {
+  /* display: flex; */
+  /* margin-left: 15PX; */
+  /* justify-content: space-between; */
+}
+.footer-buttons {
+  font-size: 15px;
+  background-color: white;
+  border-style: none;
+  border-radius: 1px solid lightpink;
+}
 
-  .destroy{
-  color:   #cc9a9a;
+.destroy {
+  color: #cc9a9a;
   opacity: 1;
 
   transition: color 0.2s ease-out;
-  }
+}

@@ -17,8 +17,6 @@ async function getIssue(issueNumber) {
   ).then((res) => res.json());
 }
 
-console.log(styles);
-
 function Title({ issue: { title, number, user, updated_at, comments } }) {
   return (
     <div>
@@ -151,12 +149,16 @@ class Issue extends Component {
       return <div>Loading....</div>;
     }
 
-    const id = this.props.match.params.id;
+    // const id = this.props.match.params.id;
     return (
       <div className={styles.mainContainer}>
         <Title issue={issue} />
         <div className={styles.bodyContainer}>
-          <img className={styles.userImage} src={issue.user.avatar_url} />
+          <img
+            className={styles.userImage}
+            src={issue.user.avatar_url}
+            alt="user profile logo"
+          />
           <div className={styles.leftArrow}>
             <IssueCommentHead issue={issue} />
             <IssueCommentBody issue={issue} />

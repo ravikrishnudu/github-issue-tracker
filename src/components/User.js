@@ -1,6 +1,7 @@
 import React, { Component } from "react";
-import Repositories from "./Repositories";
+
 import "./User.css";
+import Repositories from "./Repositories";
 
 async function getUser(username) {
   return fetch(`https://api.github.com/users/${username}`).then((res) =>
@@ -15,7 +16,7 @@ export default class User extends Component {
   }
 
   componentDidMount() {
-    const username = this.props.match.paramas;
+    const username = this.props.match.params.username;
     getUser(username).then((user) => {
       this.setState({ user });
     });
@@ -23,17 +24,19 @@ export default class User extends Component {
 
   render() {
     const { user } = this.state;
-
+    const username = this.props.match.params.username;
     if (user === undefined) {
       return <div>No data found</div>;
     }
 
-    console.log(user);
-
     return (
       <div className="main-container">
         <div className="left-contaainer">
-          <img className="round-img" src={user.avatar_url} />
+          <img
+            className="round-img"
+            src={user.avatar_url}
+            alt="user profile img"
+          />
           <div className="username">{user.name}</div>
           <div className="login">{user.login}</div>
           <div className="bio">{user.bio}</div>
@@ -53,10 +56,10 @@ export default class User extends Component {
           </div>
           <div className="Highlights-part">
             <h4>Highlights</h4>
-            <h7>Arctic Code Vault Contributor</h7>
+            <h6>Arctic Code Vault Contributor</h6>
           </div>
         </div>
-        <Repositories />
+        <Repositories username={username} />
       </div>
     );
   }

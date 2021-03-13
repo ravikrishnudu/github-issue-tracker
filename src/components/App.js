@@ -1,6 +1,7 @@
 import React from "react";
-import "./app.css";
 import { v4 as uuidv4 } from "uuid";
+
+import "./app.css";
 
 class Footer extends React.Component {
   render() {
@@ -122,12 +123,7 @@ class App extends React.Component {
   };
 
   render() {
-    const { todoList, filter, inputValue } = this.state;
-
-    const itemsLength = todoList.length;
-    let filteredTodos;
-    console.log("App render");
-
+    const { todoList, inputValue } = this.state;
     let incompleteCount = todoList.filter((todo) => todo.done === false).length;
 
     return (
