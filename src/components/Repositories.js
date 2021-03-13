@@ -13,7 +13,7 @@ class Repository extends Component {
     return (
       <div className="repo-container">
         <div className="repo-name">
-          <a herf="/#">{repo.name}</a>
+          <a herf="#">{repo.name}</a>
         </div>
         <div className="repo-description">{repo.description}</div>
         <div>{repo.fork}</div>
