@@ -19,7 +19,7 @@ function Main() {
           <Issues />
         </Route>
         <Route path="/: username" component={User} />
-        <Route exact path="/">
+        <Route path="/">
           <App />
         </Route>
       </Switch>
