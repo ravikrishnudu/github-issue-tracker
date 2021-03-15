@@ -1,5 +1,6 @@
 import React, { Component } from "react";
-import "./Issues.css";
+// import "./Issues.css";
+import styles from "./Issues.module.css";
 
 export default class Labels extends Component {
   render() {
@@ -8,7 +9,7 @@ export default class Labels extends Component {
       <div>
         {labels.map((label) => (
           <span
-            className="tool-components"
+            className={styles.toolComponents}
             key={label.id}
             style={{ backgroundColor: `#${label.color}` }}
           >
