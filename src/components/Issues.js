@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { formatDistance, parseISO } from "date-fns";
 
-import "./Issues.css";
+import styles from "./Issues.module.css";
 import Labels from "./Labels";
 
 async function getIssues(page = 1) {
@@ -21,30 +21,25 @@ class Issue extends Component {
     const { issue } = this.props;
     console.log(issue);
     return (
-      <div className="issue-repo-container">
-        <div className="main-text-body">
-          <span className="title">
-            <Link to={`/issues/${issue.number}`}>{issue.title}</Link>
-          </span>
-          <Labels labels={issue.labels} />
-          {/* {issue.labels.map((label) => (
-            <span
-              className="tool-components"
-              key={label.id}
-              style={{ backgroundColor: `#${label.color}` }}
-            >
-              {label.name}
+      <div className={styles.issueRepoContainer}>
+        <div className={styles.mainTextBody}>
+          <div className={styles.headText}>
+            <span className={styles.title}>
+              <Link className={styles.title} to={`/issues/${issue.number}`}>
+                {issue.title}
+              </Link>
             </span>
-          ))}{" "} */}
-          <div className="sub-text-body">
-            <span className="sub-text">#{issue.number}</span>
-            <span className="sub-text">
+            <Labels labels={issue.labels} />
+          </div>
+          <div className={styles.subTextBody}>
+            <span className={styles.subText}>#{issue.number}</span>
+            <span className={styles.subText}>
               opened {formatDistance(Date.now(), parseISO(issue.updated_at))}{" "}
               ago
             </span>
-            <span className="sub-text-user-login">
+            <span className={styles.subTextUserLogin}>
               by{" "}
-              <a href="/#" className="herf-user-tag">
+              <a href="/#" className={styles.herfUserTag}>
                 {" "}
                 {issue.user.login}
               </a>
@@ -112,21 +107,24 @@ export default class Issues extends Component {
           <Issue issue={issue} key={issue.id} />
         ))}
 
-        <div className="button-container">
-          <button className="previous-button" onClick={this.handlePreviousPage}>
+        <div className={styles.buttonContainer}>
+          <button
+            className={styles.previousButton}
+            onClick={this.handlePreviousPage}
+          >
             {" "}
             Previous{" "}
           </button>
           {pages.map((page, index) => (
             <button
-              className="num-buttons"
+              className={styles.numberButtons}
               onClick={() => this.handlePage(page)}
               key={index}
             >
               {page} {}{" "}
             </button>
           ))}
-          <button className="next-button" onClick={this.handleNextPage}>
+          <button className={styles.nextButton} onClick={this.handleNextPage}>
             {" "}
             Next
           </button>
