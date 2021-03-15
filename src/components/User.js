@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 
-import "./User.css";
+// import "./User.css";
+import styles from "./User.module.css";
+
 import Repositories from "./Repositories";
 
 async function getUser(username) {
@@ -30,31 +32,33 @@ export default class User extends Component {
     }
 
     return (
-      <div className="main-container">
-        <div className="left-contaainer">
+      <div className={styles.mainContainer}>
+        <div className={styles.leftContaainer}>
           <img
-            className="round-img"
+            className={styles.roundImg}
             src={user.avatar_url}
             alt="user profile img"
           />
-          <div className="username">{user.name}</div>
-          <div className="login">{user.login}</div>
-          <div className="bio">{user.bio}</div>
-          <div className="multi-button">
-            <button className="unfollow-button">Unfollow</button>
-            <button className="samall-btn">...</button>
+          <div className={styles.username}>{user.name}</div>
+          <div className={styles.login}>{user.login}</div>
+          <div className={styles.bio}>{user.bio}</div>
+          <div className={styles.multiButton}>
+            <button className={styles.unfollowButton}>Unfollow</button>
+            <button className={styles.samallBtn}>...</button>
           </div>
-          <div className="follownames">
+          <div className={styles.follownames}>
             <span>{user.followers} followers</span>
-            <span className="follownames-sub">{user.following} following</span>
+            <span className={styles.follownamesSub}>
+              {user.following} following
+            </span>
           </div>
-          <div className="details">
+          <div className={styles.details}>
             <div>{user.location}</div>
             <div>{user.email}</div>
             <div>{user.blog}</div>
             <div>{user.twitter_username}</div>
           </div>
-          <div className="Highlights-part">
+          <div className={styles.HighlightsPart}>
             <h4>Highlights</h4>
             <h6>Arctic Code Vault Contributor</h6>
           </div>
