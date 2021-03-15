@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { formatDistance, parseISO } from "date-fns";
+
 import styles from "./Issue.module.css";
 import Labels from "./Labels";
 import Markdown from "./Markdown";
