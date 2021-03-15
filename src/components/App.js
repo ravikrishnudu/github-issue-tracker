@@ -136,7 +136,9 @@ class App extends React.Component {
             value={inputValue}
             onChange={(event) => this.handleChange(event)}
           />
-          <button onClick={this.submitValue}>Enter</button>
+          <button className="submitValuebutton" onClick={this.submitValue}>
+            Enter
+          </button>
         </div>
         <div className="list-items ">
           {todoList.map((todo, index) => (
