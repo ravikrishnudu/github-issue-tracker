@@ -1,4 +1,4 @@
-.repo-container {
+.repoContainer {
   margin-left: 30px;
   font-size: 14px;
   line-height: 24px;
@@ -6,14 +6,14 @@
   border-bottom: 1px solid;
   border-color: rgba(27, 31, 35, 0.15);
 }
-.repo-name {
+.repoName {
   font-size: 20px;
   font-weight: 600;
   line-height: 30px;
-  coursor: pointer;
+  cursor: pointer;
   color: rgb(3, 102, 214);
 }
-.repo-description {
+.repoDescription {
   color: rgb(88, 96, 105);
   font-size: 14px;
   line-height: 21px;

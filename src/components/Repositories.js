@@ -1,5 +1,7 @@
 import React, { Component } from "react";
-import "./Repositories.css";
+// import styles "./Repositories.module.css";
+import styles from "./Repositories.module.css";
+
 async function getRepos() {
   return fetch(
     "https://api.github.com/users" + window.location.pathname + "/repos"
@@ -11,11 +13,11 @@ class Repository extends Component {
     const { repo } = this.props;
 
     return (
-      <div className="repo-container">
-        <div className="repo-name">
+      <div className={styles.repoContainer}>
+        <div className={styles.repoName}>
           <div>{repo.name}</div>
         </div>
-        <div className="repo-description">{repo.description}</div>
+        <div className={styles.repoDescription}>{repo.description}</div>
         <div>{repo.fork}</div>
         {/* <div>{repo.full_name}</div> */}
         {/* <div>{repo.pushed_at}</div> */}
