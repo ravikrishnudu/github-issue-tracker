@@ -3,13 +3,25 @@ import { formatDistance, parseISO } from "date-fns";
 
 import styles from "./Issue.module.css";
 import Labels from "./Labels";
-import Markdown from "./Markdown";
-
+import CommentContainer from "./CommentContainer";
+// import Markdown from "./Markdown";
+// import Comments from "./Comments";
 // import { useParams } from "react-router-dom";
 
 async function getIssue(issueNumber) {
   return fetch(
     `https://api.github.com/repos/facebook/react/issues/${issueNumber}`,
+    {
+      headers: {
+        Authorization: `Bearer ${process.env.REACT_APP_TOKEN}`,
+      },
+    }
+  ).then((res) => res.json());
+}
+
+async function getComments(issueNumber) {
+  return fetch(
+    `https://api.github.com/repos/facebook/react/issues/${issueNumber}/comments`,
     {
       headers: {
         Authorization: `Bearer ${process.env.REACT_APP_TOKEN}`,
@@ -44,76 +56,46 @@ function Title({ issue: { title, number, user, updated_at, comments } }) {
     </div>
   );
 }
-
-class IssueCommentHead extends Component {
-  render() {
-    const { issue } = this.props;
-    return (
-      <div className={styles.issueCommentHead}>
-        <div className={styles.issueUserLogin}>{issue.user.login}</div>
-        <div className={styles.issueOpendTime}>
-          commented {formatDistance(Date.now(), parseISO(issue.updated_at))} ago
-        </div>
-      </div>
-    );
-  }
-}
-class IssueCommentBody extends Component {
-  render() {
-    const { issue } = this.props;
-
-    return (
-      <div className={styles.leftContainer}>
-        <Markdown body={issue.body} />
-      </div>
-    );
-  }
-}
-
 // class DiscussionBar extends Component {
 //   render() {
 //     const { issue } = this.props;
 //     return (
-//       <div className={styles.elementTopContainer}>
+//       <div className={styles.elementContainer}>
 //         <div className={styles.elementTitle}>Assignees {issue.assignees}</div>
 //         <span className={styles.elementChild}>No one assigned</span>
 //       </div>
 //     );
 //   }
 // }
-
 class IssueDetails extends Component {
   render() {
     const { issue } = this.props;
     return (
       <div className={styles.rightContainer}>
-        <div>
-          {/* <DiscussionBar issue={issue} /> */}
-          <div className={styles.elementTopContainer}>
-            <div className={styles.elementTitle}>
-              Assignees {issue.assignees}
-            </div>
-            <span className={styles.elementChild}>No one assigned</span>
-          </div>
-          <div className={styles.elementContainer}>
-            <div className={styles.elementTitle}>Labels</div>
-            <Labels labels={issue.labels} />
-          </div>
-          <div className={styles.elementContainer}>
-            <div className={styles.elementTitle}>Projects</div>
-            <span className={styles.elementChild}>None yet</span>
-          </div>
-          <div className={styles.elementContainer}>
-            <div className={styles.elementTitle}>Milestone</div>
-            <span className={styles.elementChild}>None Milestone</span>
-          </div>
-          <div className={styles.elementContainer}>
-            <div className={styles.elementTitle}>Linked pull requests</div>
-            <p className={styles.elementChild}>
-              Sucessfully merging a pull request may close this issue
-            </p>
-            <span className={styles.elementChild}>None yet</span>
-          </div>
+        {/* <div> */}
+        {/* <DiscussionBar issue={issue} /> */}
+        <div className={styles.elementContainer}>
+          <div className={styles.elementTitle}>Assignees {issue.assignees}</div>
+          <span className={styles.elementChild}>No one assigned</span>
+        </div>
+        <div className={styles.elementContainer}>
+          <div className={styles.elementTitle}>Labels</div>
+          <Labels labels={issue.labels} />
+        </div>
+        <div className={styles.elementContainer}>
+          <div className={styles.elementTitle}>Projects</div>
+          <span className={styles.elementChild}>None yet</span>
+        </div>
+        <div className={styles.elementContainer}>
+          <div className={styles.elementTitle}>Milestone</div>
+          <span className={styles.elementChild}>None Milestone</span>
+        </div>
+        <div className={styles.elementContainer}>
+          <div className={styles.elementTitle}>Linked pull requests</div>
+          <p className={styles.elementChild}>
+            Sucessfully merging a pull request may close this issue
+          </p>
+          <span className={styles.elementChild}>None yet</span>
         </div>
         <div className={styles.elementContainer}>
           <div className={styles.childElements}>
@@ -125,21 +107,30 @@ class IssueDetails extends Component {
             You’re not receiving notifications from this thread.
           </p>
         </div>
+        {/* </div> */}
       </div>
     );
   }
+}
+
+class Comments extends Component {
+  render() {}
 }
 class Issue extends Component {
   constructor(props) {
     super(props);
     this.state = {
       issue: {},
+      comments: [],
     };
   }
   componentDidMount() {
     const id = this.props.match.params.id;
     getIssue(id).then((issue) => {
       this.setState({ issue });
+    });
+    getComments(id).then((comments) => {
+      this.setState({ comments });
     });
   }
 
@@ -152,20 +143,22 @@ class Issue extends Component {
 
     // const id = this.props.match.params.id;
     return (
-      <div className={styles.mainContainer}>
-        <Title issue={issue} />
-        <div className={styles.bodyContainer}>
-          <img
-            className={styles.userImage}
-            src={issue.user.avatar_url}
-            alt="user profile logo"
-          />
-          <div className={styles.leftArrow}>
-            <IssueCommentHead issue={issue} />
-            <IssueCommentBody issue={issue} />
+      <div>
+        <div className={styles.mainContainer}>
+          <Title issue={issue} />
+          <div className={styles.bodyContainer}>
+            <img
+              className={styles.userImage}
+              src={issue.user.avatar_url}
+              alt="user profile logo"
+            />
+            <div className={styles.leftArrow}>
+              <CommentContainer issue={issue} />
+            </div>
+            <IssueDetails issue={issue} />
           </div>
-          <IssueDetails issue={issue} />
         </div>
+        <comments />
       </div>
     );
   }
