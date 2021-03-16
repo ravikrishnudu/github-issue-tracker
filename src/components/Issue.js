@@ -4,7 +4,7 @@ import { formatDistance, parseISO } from "date-fns";
 import styles from "./Issue.module.css";
 import Labels from "./Labels";
 import CommentContainer from "./CommentContainer";
-// import Markdown from "./Markdown";
+import Markdown from "./Markdown";
 // import Comments from "./Comments";
 // import { useParams } from "react-router-dom";
 
@@ -113,8 +113,33 @@ class IssueDetails extends Component {
   }
 }
 
-class Comments extends Component {
-  render() {}
+class Comment extends Component {
+  render() {
+    const { comment } = this.props;
+    const { body, updated_at, user } = comment;
+    return (
+      <div className={styles.comments}>
+        <img
+          className={styles.userImage}
+          src={comment.user.avatar_url}
+          alt="user profile logo"
+        />
+        <div className={styles.leftArrow}>
+          <div className={styles.issueCommentHead}>
+            <div className={styles.issueUserLogin}>{user.login}</div>
+            <div className={styles.issueOpendTime}>
+              commented {formatDistance(Date.now(), parseISO(updated_at))} ago
+            </div>
+          </div>
+          <div>
+            <div className={styles.leftContainer}>
+              <Markdown body={body} />
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
 }
 class Issue extends Component {
   constructor(props) {
@@ -135,7 +160,7 @@ class Issue extends Component {
   }
 
   render() {
-    const { issue } = this.state;
+    const { issue, comments } = this.state;
     console.log(this.state);
     if (Object.entries(issue).length === 0) {
       return <div>Loading....</div>;
@@ -143,8 +168,8 @@ class Issue extends Component {
 
     // const id = this.props.match.params.id;
     return (
-      <div>
-        <div className={styles.mainContainer}>
+      <div className={styles.mainContainer}>
+        <div>
           <Title issue={issue} />
           <div className={styles.bodyContainer}>
             <img
@@ -158,7 +183,11 @@ class Issue extends Component {
             <IssueDetails issue={issue} />
           </div>
         </div>
-        <comments />
+        <div>
+          {comments.map((comment) => (
+            <Comment comment={comment} key={comment.id} />
+          ))}
+        </div>
       </div>
     );
   }

@@ -3,8 +3,16 @@
     sans-serif, Apple Color Emoji, Segoe UI Emoji;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
+  /* justify-content: center; */
+  /* align-items: center; */
+  margin-left: 350px;
+  margin-right: 500px;
+}
+.comments{
+  display: flex;
+  justify-content: start;
+  margin-top: 20px;
+  /* align-items: center; */
 }
 .titleBody {
   display: flex;
