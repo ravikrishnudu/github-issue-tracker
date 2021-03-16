@@ -1,5 +1,7 @@
 import React, { Component } from "react";
-// import styles "./Repositories.module.css";
+import { Link } from "react-router-dom";
+import { formatDistance, parseISO } from "date-fns";
+
 import styles from "./Repositories.module.css";
 
 async function getRepos() {
@@ -14,13 +16,19 @@ class Repository extends Component {
 
     return (
       <div className={styles.repoContainer}>
-        <div className={styles.repoName}>
-          <div>{repo.name}</div>
+        <div className={styles.repoBody}>
+          <Link className={styles.repoName}>{repo.name}</Link>
+          <div className={styles.repoDescription}>{repo.description}</div>
+          <div className={styles.repodetails}>
+            {/* <span>{repo.forks_}</span> */}
+            <span>{repo.license?.name}</span>
+            <span>
+              Updated {formatDistance(Date.now(), parseISO(repo.updated_at))}{" "}
+              ago
+            </span>
+          </div>
         </div>
-        <div className={styles.repoDescription}>{repo.description}</div>
         <div>{repo.fork}</div>
-        {/* <div>{repo.full_name}</div> */}
-        {/* <div>{repo.pushed_at}</div> */}
       </div>
     );
   }

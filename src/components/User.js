@@ -60,7 +60,7 @@ export default class User extends Component {
           </div>
           <div className={styles.HighlightsPart}>
             <h4>Highlights</h4>
-            <h6>Arctic Code Vault Contributor</h6>
+            <p>Arctic Code Vault Contributor</p>
           </div>
         </div>
         <Repositories username={username} />
