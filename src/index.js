@@ -6,6 +6,7 @@ import App from "./components/App";
 import User from "./components/User";
 import Issues from "./components/Issues";
 import Issue from "./components/Issue";
+import NewIssue from "./components/NewIssue";
 
 function Main() {
   return (
@@ -13,6 +14,9 @@ function Main() {
       <Switch>
         <Route exact path="/">
           <App />
+        </Route>
+        <Route path="/issues/new">
+          <NewIssue />
         </Route>
         <Route path="/issues/:id" component={Issue} />
         <Route path="/issues">
