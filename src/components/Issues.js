@@ -7,7 +7,7 @@ import Labels from "./Labels";
 
 async function getIssues(page = 1) {
   return fetch(
-    `https://api.github.com/repos/facebook/react/issues?page=${page}`,
+    `https://api.github.com/repos/ravikrishnudu/git/issues?page=${page}`,
     {
       headers: {
         Authorization: `Bearer ${process.env.REACT_APP_TOKEN}`,
