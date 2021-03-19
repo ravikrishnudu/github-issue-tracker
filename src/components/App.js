@@ -85,7 +85,6 @@ class App extends React.Component {
 
   deleteTodo = (id) => {
     const { todoList } = this.state;
-
     const filterArray = todoList.filter((todo) => todo.id !== id);
     this.setState({
       todoList: filterArray,
@@ -101,10 +100,6 @@ class App extends React.Component {
     this.setState({ todoList: filteredArray });
   };
 
-  // completed = () => {
-  //   const completeArray = this.state;
-  // };
-
   handleCheck = (id) => {
     const { todoList } = this.state;
 
@@ -118,8 +113,6 @@ class App extends React.Component {
       }
     });
     this.setState({ todoList: newArray });
-    // let checkedline = this.state.todoList[index]
-    // console.log();
   };
 
   render() {
