@@ -5,12 +5,13 @@ import styles from "./Issue.module.css";
 import Labels from "./Labels";
 import CommentContainer from "./CommentContainer";
 import Markdown from "./Markdown";
+import "./NewIssue.module.css";
 // import Comments from "./Comments";
 // import { useParams } from "react-router-dom";
 
 async function getIssue(issueNumber) {
   return fetch(
-    `https://api.github.com/repos/facebook/react/issues/${issueNumber}`,
+    `https://api.github.com/repos/ravikrishnudu/git/issues/${issueNumber}`,
     {
       headers: {
         Authorization: `Bearer ${process.env.REACT_APP_TOKEN}`,
@@ -21,7 +22,7 @@ async function getIssue(issueNumber) {
 
 async function getComments(issueNumber) {
   return fetch(
-    `https://api.github.com/repos/facebook/react/issues/${issueNumber}/comments`,
+    `https://api.github.com/repos/ravikrishnudu/git/issues/${issueNumber}/comments`,
     {
       headers: {
         Authorization: `Bearer ${process.env.REACT_APP_TOKEN}`,
@@ -113,7 +114,7 @@ class IssueDetails extends Component {
   }
 }
 
-class Comment extends Component {
+class CommentDiscussion extends Component {
   render() {
     const { comment } = this.props;
     const { body, updated_at, user } = comment;
@@ -141,12 +142,73 @@ class Comment extends Component {
     );
   }
 }
+
+class NewCommment extends Component {
+  render() {
+    const { body, handleChangeBody, handleSubmit } = this.props;
+    return (
+      <div className={styles.comments}>
+        {" "}
+        <form onSubmit={handleSubmit}>
+          <div className={styles.commentWrapper}>
+            <div>
+              <img
+                className={styles.avatarUrl}
+                alt="profile -img"
+                src="https://avatars.githubusercontent.com/u/52109411?s=80&v=4"
+              />
+            </div>
+            <div className={styles.leftArrow}>
+              <div className={styles.commentBox}>
+                <div className={styles.tabContainer}>
+                  <div className={styles.commentTabNav}>
+                    <div className={styles.TabNavTabs}>
+                      <button type="button" className={styles.writeButton}>
+                        Write
+                      </button>
+                      <button type="button" className={styles.prevButton}>
+                        Preview
+                      </button>
+                    </div>
+                  </div>
+                  <div className={styles.writeContent}>
+                    <textarea
+                      placeholder="Leave a comment"
+                      className={styles.commentTextarea}
+                      value={body}
+                      onChange={(event) => handleChangeBody(event)}
+                    />
+
+                    <div className={styles.dragAndDropText}>
+                      <span className={styles.dragText}>
+                        Attach files by draging & dropping, selecting or pasting
+                        them.
+                      </span>
+                    </div>
+                  </div>
+                  <div className={styles.markDownButton}>
+                    <button className={styles.newIssuebtn} type="submit">
+                      comment
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    );
+  }
+}
+
 class Issue extends Component {
   constructor(props) {
     super(props);
     this.state = {
       issue: {},
       comments: [],
+      body: "",
+      issueNumber: "",
     };
   }
   componentDidMount() {
@@ -159,8 +221,41 @@ class Issue extends Component {
     });
   }
 
+  handleChangeBody = (event) => {
+    this.setState({ body: event.target.value });
+  };
+
+  handleSubmit = async (event) => {
+    event.preventDefault();
+    const { body, issueNumber } = this.state;
+    console.log(body);
+    const issue = {
+      owner: "ravikrishnudu",
+      repo: "git",
+      issue_number: issueNumber,
+      body: body,
+    };
+    fetch(
+      `https://api.github.com/repos/ravikrishnudu/git/issues/${issueNumber}/comments`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${process.env.REACT_APP_TOKEN}`,
+        },
+        body: JSON.stringify(issue),
+      }
+    )
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("Success:", data);
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
+  };
   render() {
-    const { issue, comments } = this.state;
+    const { issue, comments, body, issueNumber } = this.state;
     console.log(this.state);
     if (Object.entries(issue).length === 0) {
       return <div>Loading....</div>;
@@ -185,8 +280,16 @@ class Issue extends Component {
         </div>
         <div>
           {comments.map((comment) => (
-            <Comment comment={comment} key={comment.id} />
+            <CommentDiscussion comment={comment} key={comment.id} />
           ))}
+        </div>
+        <div>
+          <NewCommment
+            body={body}
+            issueNumber={issueNumber}
+            handleChangeBody={this.handleChangeBody}
+            handleSubmit={this.handleSubmit}
+          />
         </div>
       </div>
     );
