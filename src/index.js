@@ -18,7 +18,7 @@ function Main() {
         <Route path="/issues/new">
           <NewIssue />
         </Route>
-        <Route path="/issues/:id" component={Issue} />
+        <Route path="/issues/:number" component={Issue} />
         <Route path="/issues">
           <Issues />
         </Route>
