@@ -5,9 +5,9 @@ import { formatDistance, parseISO } from "date-fns";
 import styles from "./Issues.module.css";
 import Labels from "./Labels";
 
-async function getIssues(page = 1) {
+async function getIssues(page) {
   return fetch(
-    `https://api.github.com/repos/ravikrishnudu/git/issues?page=${page}`,
+    `https://api.github.com/repos/facebook/react/issues?page=${page}`,
     {
       headers: {
         Authorization: `Bearer ${process.env.REACT_APP_TOKEN}`,
@@ -19,12 +19,12 @@ async function getIssues(page = 1) {
 class Issue extends Component {
   render() {
     const { issue } = this.props;
-    console.log(issue);
+    // console.log(issue);
     return (
-      <div className={styles.issueRepoContainer}>
-        <div className={styles.mainTextBody}>
-          <div className={styles.headText}>
-            <span className={styles.title}>
+      <div className={styles.issueContainer}>
+        <div className={styles.issue}>
+          <div className={styles.titleContent}>
+            <span>
               <Link className={styles.title} to={`/issues/${issue.number}`}>
                 {issue.title}
               </Link>
@@ -37,15 +37,14 @@ class Issue extends Component {
               opened {formatDistance(Date.now(), parseISO(issue.updated_at))}{" "}
               ago
             </span>
-            <span className={styles.subTextUserLogin}>
+            <span className={styles.userLogin}>
               by{" "}
               <a href="/#" className={styles.herfUserTag}>
-                {" "}
                 {issue.user.login}
               </a>
             </span>
           </div>
-        </div>{" "}
+        </div>
       </div>
     );
   }
@@ -55,14 +54,13 @@ export default class Issues extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      issues: [],
+      issues: null,
       page: 1,
       pages: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
     };
   }
 
   componentDidMount() {
-    // console.log("mounted");
     getIssues(this.state.page).then((issues) => {
       this.setState({ issues });
     });
@@ -70,7 +68,6 @@ export default class Issues extends Component {
 
   componentDidUpdate(prevProps, prevState) {
     const { page } = this.state;
-    // console.log(prevState.page, page);
     if (page !== prevState.page) {
       getIssues(this.state.page).then((issues) => {
         this.setState({ issues });
@@ -81,26 +78,25 @@ export default class Issues extends Component {
   handlePreviousPage = () => {
     const { page } = this.state;
     this.setState({ page: page - 1 });
-    // console.log(page);
   };
 
   handleNextPage = () => {
     const { page } = this.state;
     this.setState({ page: page + 1 });
-    // console.log(page);
   };
 
   handlePage = (currentPage) => {
-    // const { page } = this.state;
     this.setState({ page: currentPage });
   };
 
   render() {
-    // console.log("Render");
+    const { issues, pages } = this.state;
+    if (!issues) {
+      return <div>Lodaing...</div>;
+    }
     console.log(this.state.issues);
     // eslint-disable-next-line
     // console.log(process.env.REACT_APP_TOKEN);
-    const { issues, pages } = this.state;
     return (
       <div>
         {issues.map((issue) => (
@@ -112,8 +108,7 @@ export default class Issues extends Component {
             className={styles.previousButton}
             onClick={this.handlePreviousPage}
           >
-            {" "}
-            Previous{" "}
+            Previous
           </button>
           {pages.map((page, index) => (
             <button
@@ -121,11 +116,10 @@ export default class Issues extends Component {
               onClick={() => this.handlePage(page)}
               key={index}
             >
-              {page} {}{" "}
+              {page}
             </button>
           ))}
           <button className={styles.nextButton} onClick={this.handleNextPage}>
-            {" "}
             Next
           </button>
         </div>
