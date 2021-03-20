@@ -5,7 +5,6 @@ import Labels from "./Labels";
 import CommentContainer from "./CommentContainer";
 import Markdown from "./Markdown";
 import { LabelText } from "./Text";
-
 import styles from "./Issue.module.css";
 
 async function getIssue(issueNumber) {
@@ -30,34 +29,34 @@ async function getComments(issueNumber) {
   ).then((res) => res.json());
 }
 
-function Title({ issue: { title, number, user, updated_at, comments } }) {
+function IssueDetails({
+  issue: { title, number, user, updated_at, comments },
+}) {
   return (
-    <div>
+    <div className={styles.issueDetails}>
       <div className={styles.titleBody}>
-        <div className={styles.titleBar}>
-          <span className={styles.issueTitle}>{title}</span>
-          <span className={styles.issueNum}># {number} </span>
-        </div>
         <div>
-          <button className={styles.issueButton}>New issue</button>
+          <span className={styles.title}>{title}</span>
+          <span className={styles.issueNumber}># {number} </span>
         </div>
+        <button className={styles.issueButton}>New issue</button>
       </div>
       <div className={styles.issueTitleDetails}>
         <button className={styles.openButton}>Open</button>
         <div className={styles.userDetails}>
-          <span className={styles.issueUserLogin}>{user.login}</span>
-          <span className={styles.issueOpendTime}>
+          <span className={styles.userLogin}>{user.login}</span>
+          <span>
             opened this issue {formatDistance(Date.now(), parseISO(updated_at))}{" "}
             ago
           </span>
-          <span className={styles.issueComments}>{comments} comments</span>
+          <span> {comments} comments</span>
         </div>
       </div>
     </div>
   );
 }
 
-class IssueDetails extends Component {
+class DiscussionSideBar extends Component {
   render() {
     const { issue } = this.props;
     return (
@@ -257,7 +256,7 @@ class Issue extends Component {
     return (
       <div className={styles.mainContainer}>
         <div>
-          <Title issue={issue} />
+          <IssueDetails issue={issue} />
           <div className={styles.bodyContainer}>
             <img
               className={styles.userImage}
@@ -267,7 +266,7 @@ class Issue extends Component {
             <div className={styles.leftArrow}>
               <CommentContainer issue={issue} />
             </div>
-            <IssueDetails issue={issue} />
+            <DiscussionSideBar issue={issue} />
           </div>
         </div>
         <div>
