@@ -64,12 +64,15 @@ class DiscussionSideBar extends Component {
         {/* <div> */}
         {/* <DiscussionBar issue={issue} /> */}
         <div className={styles.elementContainer}>
+          <div className={styles.elementTitle}>Assiagnees</div>
           <div>
             <LabelText className={styles.elementTitle}>
-              Assignees {issue.assignees}
+              {issue.assignees.length !== 0
+                ? issue.assignees.map((assignee) => assignee.login)
+                : "No one assigned"}
             </LabelText>
           </div>
-          <LabelText className={styles.elementChild}>No one assigned</LabelText>
+          {/* <LabelText className={styles.elementChild}>No one assigned</LabelText> */}
         </div>
         <div className={styles.elementContainer}>
           <div className={styles.elementTitle}>Labels</div>
@@ -139,7 +142,7 @@ class NewCommment extends Component {
   render() {
     const { body, handleChangeBody, handleSubmit } = this.props;
     return (
-      <div className={styles.comments}>
+      <div>
         {" "}
         <form onSubmit={handleSubmit}>
           <div className={styles.commentWrapper}>
@@ -179,7 +182,11 @@ class NewCommment extends Component {
                     </div>
                   </div>
                   <div className={styles.markDownButton}>
-                    <button className={styles.newIssuebtn} type="submit">
+                    <button
+                      className={styles.newIssuebtn}
+                      disabled={body.length !== 0 ? false : true}
+                      type="submit"
+                    >
                       comment
                     </button>
                   </div>
@@ -252,36 +259,37 @@ class Issue extends Component {
     if (!issue) {
       return <div>Loading....</div>;
     }
-
+    console.log(issue);
     return (
       <div className={styles.mainContainer}>
         <div>
           <IssueDetails issue={issue} />
           <div className={styles.bodyContainer}>
-            <img
-              className={styles.userImage}
-              src={issue.user.avatar_url}
-              alt="user profile logo"
-            />
-            <div className={styles.leftArrow}>
-              <CommentContainer issue={issue} />
+            <div>
+              <div>
+                <CommentContainer issue={issue} />
+              </div>
+              <div>
+                {comments.map((comment) => (
+                  <CommentDiscussion comment={comment} key={comment.id} />
+                ))}
+              </div>
+              <div className={styles.newCommment}>
+                <NewCommment
+                  body={body}
+                  handleChangeBody={this.handleChangeBody}
+                  handleSubmit={this.handleSubmit}
+                  number={["assdasd"]}
+                />
+              </div>
             </div>
-            <DiscussionSideBar issue={issue} />
+            <div>
+              <DiscussionSideBar issue={issue} />
+            </div>
           </div>
         </div>
-        <div>
-          {comments.map((comment) => (
-            <CommentDiscussion comment={comment} key={comment.id} />
-          ))}
-        </div>
-        <div>
-          <NewCommment
-            body={body}
-            handleChangeBody={this.handleChangeBody}
-            handleSubmit={this.handleSubmit}
-            number={["assdasd"]}
-          />
-        </div>
+
+        <div className={styles.newCommment}></div>
       </div>
     );
   }

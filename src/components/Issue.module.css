@@ -10,11 +10,9 @@
   /* margin-left: 350px; */
   /* margin-right: 500px; */
 }
-.comments {
+
+.imgCont {
   display: flex;
-  justify-content: flex-start;
-  margin-top: 20px;
-  /* align-items: center; */
 }
 .issueDetails {
   font-size: 14px;
@@ -135,6 +133,7 @@
 
 .bodyContainer {
   display: flex;
+  justify-content: center;
 }
 
 .leftContainer {
@@ -207,11 +206,21 @@
   margin: -4px 0px 4px;
 }
 
+.comments {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+.newCommment {
+  /* margin-left: 418px; */
+  margin-top: 20px;
+}
 /* new comment css */
 
 .commentWrapper {
   display: flex;
-  justify-content: center;
+  /* margin: 0px auto; */
+  /* justify-content: center; */
 }
 .avatarUrl {
   width: 40px;
@@ -242,7 +251,7 @@
 .commentBox {
   border: 1px solid rgb(225, 228, 232);
   /* background-color: rgb(225, 225, 225); */
-  width: 850px;
+  width: 880px;
   border-radius: 6px;
 }
 
