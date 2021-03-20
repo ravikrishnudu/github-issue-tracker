@@ -10,7 +10,7 @@ export default class CommentContainer extends Component {
     const { issue } = this.props;
     const { body, updated_at, user } = issue;
     return (
-      <div className={styles.imgCont}>
+      <div className={styles.commentContainer}>
         <img
           className={styles.userImage}
           src={issue.user.avatar_url}
