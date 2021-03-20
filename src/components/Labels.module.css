@@ -1,0 +1,8 @@
+.toolComponents {
+  cursor: pointer;
+  padding: 2.5px 7px;
+  margin-left: 8px;
+  background-color: rgb(251, 202, 4);
+  border: 1px solid rgba(0, 0, 0, 0);
+  border-radius: 24px;
+}

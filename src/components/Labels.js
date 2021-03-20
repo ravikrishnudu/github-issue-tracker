@@ -1,22 +1,30 @@
 import React, { Component } from "react";
-// import "./Issues.css";
-import styles from "./Issues.module.css";
+import { LabelText } from "./Text";
+import styles from "./Labels.module.css";
+
+class Label extends Component {
+  render() {
+    const { label } = this.props;
+    return (
+      <LabelText
+        className={styles.toolComponents}
+        style={{ backgroundColor: `#${label.color}` }}
+      >
+        {label.name}
+      </LabelText>
+    );
+  }
+}
 
 export default class Labels extends Component {
   render() {
     const { labels } = this.props;
     return (
-      <div>
+      <>
         {labels.map((label) => (
-          <span
-            className={styles.toolComponents}
-            key={label.id}
-            style={{ backgroundColor: `#${label.color}` }}
-          >
-            {label.name}
-          </span>
-        ))}{" "}
-      </div>
+          <Label key={label.id} label={label} />
+        ))}
+      </>
     );
   }
 }
