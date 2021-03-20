@@ -27,7 +27,7 @@ export default class NewIssue extends Component {
       body: body,
     };
 
-    fetch("https://api.github.com/repos/ravikrishnudu/git/issues", {
+    fetch("https://api.github.com/repos/facebook/react/issues", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -99,7 +99,14 @@ export default class NewIssue extends Component {
                       Styling with Markdown is supported
                     </span>
 
-                    <button className={styles.newIssuebtn} type="submit">
+                    <button
+                      className={
+                        title === ""
+                          ? styles.disabledButton
+                          : styles.newIssuebtn
+                      }
+                      type="submit"
+                    >
                       Submit new issue
                     </button>
                   </div>

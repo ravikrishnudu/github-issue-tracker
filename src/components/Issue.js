@@ -1,17 +1,16 @@
 import React, { Component } from "react";
 import { formatDistance, parseISO } from "date-fns";
 
-import styles from "./Issue.module.css";
 import Labels from "./Labels";
 import CommentContainer from "./CommentContainer";
 import Markdown from "./Markdown";
-import "./NewIssue.module.css";
-// import Comments from "./Comments";
-// import { useParams } from "react-router-dom";
+import { LabelText } from "./Text";
+
+import styles from "./Issue.module.css";
 
 async function getIssue(issueNumber) {
   return fetch(
-    `https://api.github.com/repos/ravikrishnudu/git/issues/${issueNumber}`,
+    `https://api.github.com/repos/facebook/react/issues/${issueNumber}`,
     {
       headers: {
         Authorization: `Bearer ${process.env.REACT_APP_TOKEN}`,
@@ -22,7 +21,7 @@ async function getIssue(issueNumber) {
 
 async function getComments(issueNumber) {
   return fetch(
-    `https://api.github.com/repos/ravikrishnudu/git/issues/${issueNumber}/comments`,
+    `https://api.github.com/repos/facebook/react/issues/${issueNumber}/comments`,
     {
       headers: {
         Authorization: `Bearer ${process.env.REACT_APP_TOKEN}`,
@@ -57,17 +56,7 @@ function Title({ issue: { title, number, user, updated_at, comments } }) {
     </div>
   );
 }
-// class DiscussionBar extends Component {
-//   render() {
-//     const { issue } = this.props;
-//     return (
-//       <div className={styles.elementContainer}>
-//         <div className={styles.elementTitle}>Assignees {issue.assignees}</div>
-//         <span className={styles.elementChild}>No one assigned</span>
-//       </div>
-//     );
-//   }
-// }
+
 class IssueDetails extends Component {
   render() {
     const { issue } = this.props;
@@ -76,8 +65,12 @@ class IssueDetails extends Component {
         {/* <div> */}
         {/* <DiscussionBar issue={issue} /> */}
         <div className={styles.elementContainer}>
-          <div className={styles.elementTitle}>Assignees {issue.assignees}</div>
-          <span className={styles.elementChild}>No one assigned</span>
+          <div>
+            <LabelText className={styles.elementTitle}>
+              Assignees {issue.assignees}
+            </LabelText>
+          </div>
+          <LabelText className={styles.elementChild}>No one assigned</LabelText>
         </div>
         <div className={styles.elementContainer}>
           <div className={styles.elementTitle}>Labels</div>
@@ -205,18 +198,17 @@ class Issue extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      issue: {},
+      issue: null,
       comments: [],
       body: "",
-      issueNumber: "",
     };
   }
   componentDidMount() {
-    const id = this.props.match.params.id;
-    getIssue(id).then((issue) => {
+    const number = this.props.match.params.number;
+    getIssue(number).then((issue) => {
       this.setState({ issue });
     });
-    getComments(id).then((comments) => {
+    getComments(number).then((comments) => {
       this.setState({ comments });
     });
   }
@@ -227,23 +219,24 @@ class Issue extends Component {
 
   handleSubmit = async (event) => {
     event.preventDefault();
-    const { body, issueNumber } = this.state;
-    console.log(body);
-    const issue = {
+
+    const { body, issue } = this.state;
+    const comment = {
       owner: "ravikrishnudu",
       repo: "git",
-      issue_number: issueNumber,
+      issue_number: issue.number,
       body: body,
     };
+
     fetch(
-      `https://api.github.com/repos/ravikrishnudu/git/issues/${issueNumber}/comments`,
+      `https://api.github.com/repos/ravikrishnudu/git/issues/${issue.number}/comments`,
       {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${process.env.REACT_APP_TOKEN}`,
         },
-        body: JSON.stringify(issue),
+        body: JSON.stringify(comment),
       }
     )
       .then((response) => response.json())
@@ -254,14 +247,13 @@ class Issue extends Component {
         console.error("Error:", error);
       });
   };
+
   render() {
-    const { issue, comments, body, issueNumber } = this.state;
-    console.log(this.state);
-    if (Object.entries(issue).length === 0) {
+    const { issue, comments, body } = this.state;
+    if (!issue) {
       return <div>Loading....</div>;
     }
 
-    // const id = this.props.match.params.id;
     return (
       <div className={styles.mainContainer}>
         <div>
@@ -286,9 +278,9 @@ class Issue extends Component {
         <div>
           <NewCommment
             body={body}
-            issueNumber={issueNumber}
             handleChangeBody={this.handleChangeBody}
             handleSubmit={this.handleSubmit}
+            number={["assdasd"]}
           />
         </div>
       </div>
