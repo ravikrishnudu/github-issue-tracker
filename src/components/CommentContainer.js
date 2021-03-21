@@ -5,20 +5,19 @@ import Markdown from "./Markdown";
 import "./Markdown.css";
 import styles from "./CommentContainer.module.css";
 
-export default class CommentContainer extends Component {
-  render() {
-    const { issue } = this.props;
-    const { body, updated_at, user } = issue;
-    return (
-      <div className={styles.commentContainer}>
-        <img
-          className={styles.userImage}
-          src={issue.user.avatar_url}
-          alt="user profile logo"
-        />
-        <div className={styles.leftArrow}>
+export default function CommentContainer({ body, updated_at, user }) {
+  // console.log(this.props);
+  return (
+    <div className={styles.commentContainer}>
+      <img
+        className={styles.userImage}
+        src={user.avatar_url}
+        alt="user profile logo"
+      />
+      <div className={styles.leftArrow}>
+        <div className={styles.commentBody}>
           <div className={styles.issueCommentHead}>
-            <div>{user.login}</div>
+            <div className={styles.userLogin}>{user.login} </div>
             <div>
               commented {formatDistance(Date.now(), parseISO(updated_at))} ago
             </div>
@@ -30,6 +29,6 @@ export default class CommentContainer extends Component {
           </div>
         </div>
       </div>
-    );
-  }
+    </div>
+  );
 }
