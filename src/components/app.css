@@ -10,8 +10,8 @@
 
 body {
   background-color: #f5f5f5;
-  height: 100vh;
-  width: 100vw;
+  /* height: 100vh; */
+  /* width: 100vw; */
 }
 .heading {
   font-size: 150px;
@@ -26,7 +26,7 @@ body {
   font-size: 33px;
   box-shadow: 10px 5px 5px rgb(0 0 0 / 18%);
 }
-.submitValuebutton{
+.submitValuebutton {
   font-size: 30px;
   padding: 10px;
   border-radius: 10px;
