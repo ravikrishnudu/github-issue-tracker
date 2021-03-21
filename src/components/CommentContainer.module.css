@@ -1,12 +1,13 @@
 .commentContainer {
   display: flex;
+  margin-top: 20px;
 }
 .leftArrow {
   position: relative;
-  border: 1px solid;
+  /* border: 1px solid;
   border-color: rgba(27, 31, 35, 0.15);
   border-top-left-radius: 6px;
-  border-top-right-radius: 6px;
+  border-top-right-radius: 6px; */
 }
 
 .leftArrow::before {
@@ -24,25 +25,34 @@
   border-bottom-color: rgba(0, 0, 0, 0);
   border-left-color: rgba(0, 0, 0, 0);
 }
-
+.commentBody {
+  border: 1px solid rgba(27, 31, 35, 0.15);
+  /* border-color: rgba(27, 31, 35, 0.15); */
+  border-radius: 6px;
+}
 .userImage {
   width: 40px;
   height: 40px;
-  margin-right: 10px;
+  margin-right: 16px;
   border-radius: 50%;
+}
+.userLogin {
+  font-weight: 600;
+  cursor: pointer;
+  margin: 0px 8px;
+  color: rgb(36, 41, 46);
 }
 
 .issueCommentHead {
   display: flex;
   width: 860px;
-  align-items: center;
   font-size: 14px;
   color: rgb(88, 96, 105);
   border-bottom: 1px solid;
   border-color: rgba(27, 31, 35, 0.15);
-  padding: 8px;
+  padding: 8px 16px;
+  margin-bottom: 1px;
   overflow-wrap: break-word;
-  text-size-adjust: 100%;
 }
 
 .leftContainer {
