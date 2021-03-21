@@ -5,7 +5,7 @@ import "./Markdown.css";
 export default class Markdown extends Component {
   render() {
     const { body } = this.props;
-    console.log(body);
+    // console.log(body);
     const html = marked(body);
     return (
       <>
