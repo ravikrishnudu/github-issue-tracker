@@ -100,11 +100,12 @@ export default class NewIssue extends Component {
                     </span>
 
                     <button
-                      className={
-                        title === ""
-                          ? styles.disabledButton
-                          : styles.newIssuebtn
-                      }
+                      className={styles.newIssuebtn}
+                      // className={
+                      //   title === ""
+                      //     ? styles.disabledButton
+                      //     : styles.newIssuebtn
+                      // }
                       type="submit"
                     >
                       Submit new issue
