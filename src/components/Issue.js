@@ -4,7 +4,7 @@ import { formatDistance, parseISO } from "date-fns";
 import Labels from "./Labels";
 import CommentContainer from "./CommentContainer";
 // import Markdown from "./Markdown";
-import { LabelText } from "./Text";
+// import { LabelText } from "./Text";
 import styles from "./Issue.module.css";
 import newCommentstyles from "./NewIssue.module.css";
 
@@ -36,7 +36,7 @@ function IssueDetails({
   return (
     <div className={styles.issueDetails}>
       <div className={styles.titleBody}>
-        <div>
+        <div className={styles.titleNameNumber}>
           <span className={styles.title}>{title} </span>
           <span className={styles.issueNumber}>#{number}</span>
         </div>
@@ -64,10 +64,10 @@ class DiscussionSideBar extends Component {
       <div className={styles.rightContainer}>
         <div className={styles.elementContainer}>
           <div className={styles.elementTitle}>Assignees</div>
-          <div className={styles.dataCard}>
+          <div>
             {issue.assignees.length !== 0
               ? issue.assignees.map((assignee) => (
-                  <div style={{ display: "flex" }}>
+                  <div className={styles.dataCard}>
                     <img
                       className={styles.avataruserImage}
                       src={assignee.avatar_url}
@@ -76,8 +76,7 @@ class DiscussionSideBar extends Component {
                     <div>{assignee.login}</div>
                   </div>
                 ))
-              : // <div>{issue.assignees.map((assignee) => assignee.login)}</div>
-                "No one assigned"}
+              : "No one assigned"}
           </div>
         </div>
         <div className={styles.elementContainer}>
@@ -85,7 +84,6 @@ class DiscussionSideBar extends Component {
           <div className={styles.label}>
             <Labels labels={issue.labels} />
           </div>
-          {/* <LabelText className={styles.elementChild}>No one assigned</LabelText> */}
         </div>
         <div className={styles.elementContainer}>
           <div className={styles.elementTitle}>Projects</div>
@@ -277,30 +275,26 @@ class Issue extends Component {
     console.log(issue);
     return (
       <div className={styles.mainContainer}>
-        <div>
-          <IssueDetails issue={issue} />
-          <div className={styles.bodyContainer}>
-            <div>
-              <CommentContainer {...issue} />
-
-              <div className={styles.comments}>
-                {comments.map((comment) => (
-                  <CommentContainer {...comment} key={comment.id} />
-                ))}
-              </div>
-
-              <div className={styles.newComment}>
-                <NewComment
-                  body={body}
-                  handleChangeBody={this.handleChangeBody}
-                  handleSubmit={this.handleSubmit}
-                  number={["assdasd"]}
-                />
-              </div>
+        <IssueDetails issue={issue} />
+        <div className={styles.bodyContainer}>
+          <div>
+            {/* main Comment Discussion */}
+            <CommentContainer {...issue} />
+            {/* comments */}
+            <div className={styles.comments}>
+              {comments.map((comment) => (
+                <CommentContainer {...comment} key={comment.id} />
+              ))}
             </div>
-
-            <DiscussionSideBar issue={issue} />
+            <div className={styles.newComment}>
+              <NewComment
+                body={body}
+                handleChangeBody={this.handleChangeBody}
+                handleSubmit={this.handleSubmit}
+              />
+            </div>
           </div>
+          <DiscussionSideBar issue={issue} />
         </div>
       </div>
     );

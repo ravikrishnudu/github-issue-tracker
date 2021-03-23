@@ -7,7 +7,7 @@ class Label extends Component {
     const { label } = this.props;
     return (
       <LabelText
-        className={styles.toolComponents}
+        className={styles.labels}
         style={{ backgroundColor: `#${label.color}` }}
       >
         {label.name}
