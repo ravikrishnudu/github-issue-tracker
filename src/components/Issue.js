@@ -116,35 +116,6 @@ class DiscussionSideBar extends Component {
   }
 }
 
-// class CommentDiscussion extends Component {
-//   render() {
-//     const { comment } = this.props;
-//     const { body, updated_at, user } = comment;
-//     return (
-//       <div className={styles.comments}>
-//         <img
-//           className={styles.userImage}
-//           src={comment.user.avatar_url}
-//           alt="user profile logo"
-//         />
-//         <div className={styles.leftArrow}>
-//           <div className={styles.issueCommentHead}>
-//             <div className={styles.issueUserLogin}>{user.login}</div>
-//             <div className={styles.issueOpendTime}>
-//               commented {formatDistance(Date.now(), parseISO(updated_at))} ago
-//             </div>
-//           </div>
-//           <div>
-//             <div className={styles.leftContainer}>
-//               <Markdown body={body} />
-//             </div>
-//           </div>
-//         </div>
-//       </div>
-//     );
-//   }
-// }
-
 class NewComment extends Component {
   render() {
     const { body, handleChangeBody, handleSubmit } = this.props;

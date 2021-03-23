@@ -15,7 +15,6 @@
   border-width: 8px;
   left: -16px;
   top: 11px;
-  /* border-color: transparent; */
   border-top-color: rgba(0, 0, 0, 0);
   border-right-color: rgba(209, 213, 218);
   border-bottom-color: rgba(0, 0, 0, 0);
@@ -23,7 +22,6 @@
 }
 .commentBody {
   border: 1px solid rgba(27, 31, 35, 0.15);
-  /* border-color: rgba(27, 31, 35, 0.15); */
   border-radius: 6px;
 }
 .userImage {

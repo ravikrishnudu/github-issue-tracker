@@ -1,10 +1,15 @@
+.mainContainer {
+  display: flex;
+  justify-content: center;
+}
 .leftContainer {
   margin-left: 30px;
   font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Helvetica, Arial,
     sans-serif, Apple Color Emoji, Segoe UI Emoji;
+  line-height: 21px;
 }
 
-.roundImg {
+.roundImage {
   border-radius: 50%;
   width: 260px;
   height: 260px;
@@ -25,60 +30,46 @@
 }
 
 .bio {
+  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Helvetica, Arial,
+    sans-serif, Apple Color Emoji, Segoe UI Emoji;
+  font-size: 16px;
   width: 280px;
-  /* height: 116px; */
   padding-bottom: 15px;
+  padding-top: 10px;
   line-height: 24px;
   color: rgb(36, 41, 46);
 }
 .unfollowButton {
   color: rgb(36, 41, 46);
-  background-color: white;
   border-color: rgba(27, 31, 35, 0.15);
   border-radius: 6px;
-  font-size: 14px;
-  line-height: 20px;
   padding: 5px 56px;
   cursor: pointer;
 }
-.samallBtn {
-  background-color: white;
+.samallButton {
   border-color: rgba(27, 31, 35, 0.15);
   border-radius: 6px;
-  font-size: 14px;
   padding: 5px 20px;
   font-weight: 600;
-  line-height: 20px;
   margin-left: 10px;
   cursor: pointer;
 }
 .follownames {
   color: rgb(36, 41, 46);
-  font-size: 14px;
-  line-height: 21px;
-  margin-bottom: 16px;
-  margin-top: 16px;
+  margin: 16px 0px;
+  /* margin-bottom: 16px; */
+  /* margin-top: 16px; */
 }
 .follownamesSub {
   margin-left: 15px;
 }
 .details {
-  font-size: 14px;
-  line-height: 24px;
   color: rgb(36, 41, 46);
   padding-bottom: 10px;
 }
 .HighlightsPart {
-  font-size: 14px;
-  line-height: 24px;
   color: rgb(36, 41, 46);
   border-top: 1px solid;
   border-color: rgba(27, 31, 35, 0.15);
-
   width: 280px;
-  /* height: 116px; */
-}
-.mainContainer {
-  display: flex;
-  justify-content: center;
 }

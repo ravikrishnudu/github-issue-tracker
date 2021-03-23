@@ -1,9 +1,7 @@
 import React, { Component } from "react";
 
-// import "./User.css";
-import styles from "./User.module.css";
-
 import Repositories from "./Repositories";
+import styles from "./User.module.css";
 
 async function getUser(username) {
   return fetch(`https://api.github.com/users/${username}`).then((res) =>
@@ -35,17 +33,17 @@ export default class User extends Component {
       <div className={styles.mainContainer}>
         <div className={styles.leftContaainer}>
           <img
-            className={styles.roundImg}
+            className={styles.roundImage}
             src={user.avatar_url}
             alt="user profile img"
           />
           <div className={styles.username}>{user.name}</div>
           <div className={styles.login}>{user.login}</div>
-          <div className={styles.bio}>{user.bio}</div>
-          <div className={styles.multiButton}>
+          <div>
             <button className={styles.unfollowButton}>Unfollow</button>
-            <button className={styles.samallBtn}>...</button>
+            <button className={styles.samallButton}>...</button>
           </div>
+          <div className={styles.bio}>{user.bio}</div>
           <div className={styles.follownames}>
             <span>{user.followers} followers</span>
             <span className={styles.follownamesSub}>
@@ -53,7 +51,7 @@ export default class User extends Component {
             </span>
           </div>
           <div className={styles.details}>
-            <div>{user.location}</div>
+            T<div>{user.location}</div>
             <div>{user.email}</div>
             <div>{user.blog}</div>
             <div>{user.twitter_username}</div>
