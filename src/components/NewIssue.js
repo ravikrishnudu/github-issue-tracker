@@ -27,7 +27,7 @@ export default class NewIssue extends Component {
       body: body,
     };
 
-    fetch("https://api.github.com/repos/facebook/react/issues", {
+    fetch("https://api.github.com/repos/ravikrishnudu/git/issues", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

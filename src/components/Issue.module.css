@@ -139,6 +139,9 @@
 .comments {
   margin-top: 20px;
 }
+
+/* new comment css */
+
 .newComment {
   margin-top: 20px;
 }
@@ -148,4 +151,15 @@
   justify-content: flex-end;
   align-items: center;
   margin: 0px 8px 8px 8px;
+}
+.closeButton {
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 20px;
+  padding: 5px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-right: 8px;
+  border: 1px solid rgba(27, 31, 35, 0.15);
+  color: rgb(36, 41, 46);
 }
