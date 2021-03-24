@@ -3,6 +3,15 @@ import { formatDistance, parseISO } from "date-fns";
 
 import Labels from "./Labels";
 import CommentContainer from "./CommentContainer";
+import {
+  Listbox,
+  ListboxInput,
+  ListboxButton,
+  ListboxPopover,
+  ListboxList,
+  ListboxOption,
+} from "@reach/listbox";
+import "@reach/listbox/styles.css";
 // import Markdown from "./Markdown";
 // import { LabelText } from "./Text";
 import styles from "./Issue.module.css";
@@ -10,7 +19,7 @@ import newCommentstyles from "./NewIssue.module.css";
 
 async function getIssue(issueNumber) {
   return fetch(
-    `https://api.github.com/repos/facebook/react/issues/${issueNumber}`,
+    `https://api.github.com/repos/ravikrishnudu/git/issues/${issueNumber}`,
     {
       headers: {
         Authorization: `Bearer ${process.env.REACT_APP_TOKEN}`,
@@ -21,7 +30,7 @@ async function getIssue(issueNumber) {
 
 async function getComments(issueNumber) {
   return fetch(
-    `https://api.github.com/repos/facebook/react/issues/${issueNumber}/comments`,
+    `https://api.github.com/repos/ravikrishnudu/git/issues/${issueNumber}/comments`,
     {
       headers: {
         Authorization: `Bearer ${process.env.REACT_APP_TOKEN}`,
@@ -30,6 +39,13 @@ async function getComments(issueNumber) {
   ).then((res) => res.json());
 }
 
+async function getLabels(page) {
+  return fetch(`https://api.github.com/repos/ravikrishnudu/git/labels`, {
+    headers: {
+      Authorization: `Bearer ${process.env.REACT_APP_TOKEN}`,
+    },
+  }).then((res) => res.json());
+}
 function IssueDetails({
   issue: { title, number, user, updated_at, comments },
 }) {
@@ -56,10 +72,50 @@ function IssueDetails({
     </div>
   );
 }
+class ListLabels extends Component {
+  render() {
+    const { label } = this.props;
+    // console.log(label);
+    return (
+      <div>
+        <input type="checkbox" />
+
+        <div>
+          <span style={{ backgroundColor: `#${label.color}` }}> {" as "} </span>
+          <span to={`/labels/${label.color}`}>{label.name}</span>
+          <span>x</span>
+        </div>
+        <div>{label.description}</div>
+
+        {/* <Listbox defaultValue="popeyes">
+          <ListboxOption value="bojangles">{label.name}</ListboxOption>
+          <ListboxOption value="churchs">{label.description}s</ListboxOption>
+        </Listbox> */}
+      </div>
+    );
+  }
+}
 
 class DiscussionSideBar extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      labels: null,
+      page: 1,
+    };
+  }
+  componentDidMount() {
+    getLabels(this.state.page).then((labels) => {
+      this.setState({ labels });
+    });
+  }
   render() {
     const { issue } = this.props;
+    const { labels } = this.state;
+    if (!labels) {
+      return <div>Loading......</div>;
+    }
+    console.log(labels);
     return (
       <div className={styles.rightContainer}>
         <div className={styles.elementContainer}>
@@ -81,6 +137,12 @@ class DiscussionSideBar extends Component {
         </div>
         <div className={styles.elementContainer}>
           <div className={styles.elementTitle}>Labels</div>
+
+          <div>
+            {labels.map((label) => (
+              <ListLabels key={label.id} label={label} />
+            ))}
+          </div>
           <div className={styles.label}>
             <Labels labels={issue.labels} />
           </div>
@@ -166,6 +228,7 @@ class NewComment extends Component {
                     </div>
                   </div>
                   <div className={styles.markDownButton}>
+                    <button className={styles.closeButton}>Close issue</button>
                     <button
                       className={newCommentstyles.newIssuebtn}
                       disabled={body.length !== 0 ? false : true}
@@ -198,6 +261,7 @@ class Issue extends Component {
     getIssue(number).then((issue) => {
       this.setState({ issue });
     });
+
     getComments(number).then((comments) => {
       this.setState({ comments });
     });
@@ -232,7 +296,12 @@ class Issue extends Component {
       .then((response) => response.json())
       .then((data) => {
         console.log("Success:", data);
+
+        getComments(issue.number).then((comments) => {
+          this.setState({ comments });
+        });
       })
+
       .catch((error) => {
         console.error("Error:", error);
       });
@@ -249,9 +318,8 @@ class Issue extends Component {
         <IssueDetails issue={issue} />
         <div className={styles.bodyContainer}>
           <div>
-            {/* main Comment Discussion */}
             <CommentContainer {...issue} />
-            {/* comments */}
+
             <div className={styles.comments}>
               {comments.map((comment) => (
                 <CommentContainer {...comment} key={comment.id} />
