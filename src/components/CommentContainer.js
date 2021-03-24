@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 import { formatDistance, parseISO } from "date-fns";
 
 import Markdown from "./Markdown";
