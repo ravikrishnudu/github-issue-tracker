@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import styles from "./NewIssue.module.css";
+import marked from "marked";
 
 export default class NewIssue extends Component {
   constructor(props) {
@@ -7,6 +8,7 @@ export default class NewIssue extends Component {
     this.state = {
       title: "",
       body: "",
+      preview: false,
     };
   }
 
@@ -44,8 +46,15 @@ export default class NewIssue extends Component {
       });
   };
 
+  handlePreview = () => {
+    this.setState({ preview: true });
+  };
+
+  handleWrite = () => {
+    this.setState({ preview: false });
+  };
   render() {
-    const { title, body } = this.state;
+    const { title, body, preview } = this.state;
     // console.log(title, "title", body);
     return (
       <>
@@ -71,21 +80,38 @@ export default class NewIssue extends Component {
                 <div className={styles.tabContainer}>
                   <div className={styles.commentTabNav}>
                     <div className={styles.TabNavTabs}>
-                      <button type="button" className={styles.writeButton}>
+                      <button
+                        type="button"
+                        className={styles.writeButton}
+                        onClick={this.handleWrite}
+                      >
                         Write
                       </button>
-                      <button type="button" className={styles.prevButton}>
+                      <button
+                        type="button"
+                        className={styles.prevButton}
+                        onClick={this.handlePreview}
+                      >
                         Preview
                       </button>
                     </div>
                   </div>
                   <div className={styles.writeContent}>
-                    <textarea
-                      placeholder="Leave a comment"
-                      className={styles.commentTextarea}
-                      value={body}
-                      onChange={(event) => this.handleChangeBody(event)}
-                    />
+                    {preview ? (
+                      <div
+                        className={styles.commentTextarea}
+                        // style={{ background: "red" }}
+                      >
+                        {body}
+                      </div>
+                    ) : (
+                      <textarea
+                        placeholder="Leave a comment"
+                        className={styles.commentTextarea}
+                        value={body}
+                        onChange={(event) => this.handleChangeBody(event)}
+                      />
+                    )}
 
                     <div className={styles.dragAndDropText}>
                       <span className={styles.dragText}>
