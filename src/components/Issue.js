@@ -39,7 +39,7 @@ async function getComments(issueNumber) {
   ).then((res) => res.json());
 }
 
-async function getLabels(page) {
+async function getLabels() {
   return fetch(`https://api.github.com/repos/ravikrishnudu/git/labels`, {
     headers: {
       Authorization: `Bearer ${process.env.REACT_APP_TOKEN}`,
@@ -78,16 +78,14 @@ class ListLabels extends Component {
     // console.log(label);
     return (
       <div>
-        <input type="checkbox" />
-
+        {/* <input type="checkbox" /> */}
         <div>
-          <span style={{ backgroundColor: `#${label.color}` }}> {" as "} </span>
+          <span style={{ backgroundColor: `#${label.color}` }}> {" .. "} </span>
           <span to={`/labels/${label.color}`}>{label.name}</span>
           <span>x</span>
         </div>
         <div>{label.description}</div>
-
-        {/* <Listbox defaultValue="popeyes">
+        {/* <Listbox >
           <ListboxOption value="bojangles">{label.name}</ListboxOption>
           <ListboxOption value="churchs">{label.description}s</ListboxOption>
         </Listbox> */}
@@ -101,11 +99,10 @@ class DiscussionSideBar extends Component {
     super(props);
     this.state = {
       labels: null,
-      page: 1,
     };
   }
   componentDidMount() {
-    getLabels(this.state.page).then((labels) => {
+    getLabels().then((labels) => {
       this.setState({ labels });
     });
   }
@@ -230,11 +227,11 @@ class NewComment extends Component {
                   <div className={styles.markDownButton}>
                     <button className={styles.closeButton}>Close issue</button>
                     <button
-                      className={newCommentstyles.newIssuebtn}
-                      disabled={body.length !== 0 ? false : true}
+                      className={styles.commentButton}
+                      // disabled={body.length !== 0 ? false : true}
                       type="submit"
                     >
-                      comment
+                      Comment
                     </button>
                   </div>
                 </div>
@@ -298,7 +295,7 @@ class Issue extends Component {
         console.log("Success:", data);
 
         getComments(issue.number).then((comments) => {
-          this.setState({ comments });
+          this.setState({ comments, body: " " });
         });
       })
 
