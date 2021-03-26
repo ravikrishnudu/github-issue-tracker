@@ -4,9 +4,9 @@ import Repositories from "./Repositories";
 import styles from "./User.module.css";
 
 async function getUser(username) {
-  return fetch(`https://api.github.com/users/${username}`).then((res) =>
-    res.json()
-  );
+  return fetch(
+    `${process.env.REACT_APP_API_URL}/users/${username}`
+  ).then((res) => res.json());
 }
 
 export default class User extends Component {
