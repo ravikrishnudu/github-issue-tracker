@@ -1,0 +1,80 @@
+.commentTabNav {
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid rgb(225, 228, 232);
+  line-height: 21px;
+  margin-bottom: 8px;
+  color: rgb(36, 41, 46);
+}
+.TabNavTabs {
+  font-size: 14px;
+  margin: 8px 8px 0px 8px;
+  /* display: block; */
+}
+.writeButton,
+.prevButton {
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 23px;
+  padding: 8px 16px;
+  cursor: pointer;
+  color: rgb(36, 41, 46);
+  background-color: white;
+  border: 1px solid rgb(225, 228, 232);
+  border-top-left-radius: 6px;
+  border-top-right-radius: 6px;
+  border-bottom-style: none;
+}
+
+.disabledPreviewButton {
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 23px;
+  padding: 8px 16px;
+  cursor: pointer;
+  color: rgb(36, 41, 46);
+  border: 1px solid rgb(225, 228, 232);
+  border-top-left-radius: 6px;
+  border-top-right-radius: 6px;
+  border-bottom-style: none;
+}
+
+.writeContent {
+  margin: 8px;
+}
+.commentTextarea {
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 21px;
+  padding: 8px;
+  width: 855px;
+  max-width: 100%;
+  height: 200px;
+  min-height: 200px;
+  max-height: 500px;
+  color: rgb(36, 41, 46);
+  border: 1px solid rgb(225, 228, 232);
+  border-bottom-style: dashed;
+  border-top-left-radius: 6px;
+  border-top-right-radius: 6px;
+}
+.dragText {
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 16px;
+  padding: 7px 10px;
+  width: 815px;
+  max-width: 100%;
+  color: rgb(88, 96, 105);
+  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Helvetica, Arial,
+    sans-serif, Apple Color Emoji, Segoe UI Emoji;
+}
+.dragAndDropText {
+  padding: 5px;
+  border-top-style: none;
+  border: 1px solid rgb(225, 228, 232);
+  border-top-width: 1.1111px;
+  border-bottom-color: rgb(223, 226, 229);
+  border-bottom-left-radius: 6px;
+  border-bottom-right-radius: 6px;
+}
