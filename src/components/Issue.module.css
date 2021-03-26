@@ -38,7 +38,7 @@
 }
 
 .issueButton {
-  font-size: 12px;
+  font-size: 14px;
   font-weight: 500;
   line-height: 20px;
   cursor: pointer;
@@ -46,8 +46,10 @@
   border-radius: 6px;
   background-color: rgb(46, 164, 79);
   color: rgb(255, 255, 255);
-  padding: 3px 12px;
+  padding: 7px 12px;
   margin-top: 8px;
+  text-decoration: none;
+  text-align: center;
 }
 .issueTitleDetails {
   display: flex;

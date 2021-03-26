@@ -3,15 +3,16 @@ import { formatDistance, parseISO } from "date-fns";
 
 import Labels from "./Labels";
 import CommentContainer from "./CommentContainer";
-import {
-  Listbox,
-  ListboxInput,
-  ListboxButton,
-  ListboxPopover,
-  ListboxList,
-  ListboxOption,
-} from "@reach/listbox";
-import "@reach/listbox/styles.css";
+import BodyComposer from "./BodyComposer";
+// import {
+//   Listbox,
+//   ListboxInput,
+//   ListboxButton,
+//   ListboxPopover,
+//   ListboxList,
+//   ListboxOption,
+// } from "@reach/listbox";
+// import "@reach/listbox/styles.css";
 // import Markdown from "./Markdown";
 // import { LabelText } from "./Text";
 import styles from "./Issue.module.css";
@@ -56,7 +57,9 @@ function IssueDetails({
           <span className={styles.title}>{title} </span>
           <span className={styles.issueNumber}>#{number}</span>
         </div>
-        <button className={styles.issueButton}>New issue</button>
+        <a href="/issues/new" className={styles.issueButton}>
+          New issue
+        </a>
       </div>
       <div className={styles.issueTitleDetails}>
         <button className={styles.openButton}>Open</button>
@@ -169,7 +172,6 @@ class DiscussionSideBar extends Component {
             You’re not receiving notifications from this thread.
           </p>
         </div>
-        {/* </div> */}
       </div>
     );
   }
@@ -192,48 +194,18 @@ class NewComment extends Component {
             </div>
             <div className={newCommentstyles.leftArrow}>
               <div className={newCommentstyles.commentBox}>
-                <div className={newCommentstyles.tabContainer}>
-                  <div className={newCommentstyles.commentTabNav}>
-                    <div className={newCommentstyles.TabNavTabs}>
-                      <button
-                        type="button"
-                        className={newCommentstyles.writeButton}
-                      >
-                        Write
-                      </button>
-                      <button
-                        type="button"
-                        className={newCommentstyles.prevButton}
-                      >
-                        Preview
-                      </button>
-                    </div>
-                  </div>
-                  <div className={newCommentstyles.writeContent}>
-                    <textarea
-                      placeholder="Leave a comment"
-                      className={newCommentstyles.commentTextarea}
-                      value={body}
-                      onChange={(event) => handleChangeBody(event)}
-                    />
-
-                    <div className={newCommentstyles.dragAndDropText}>
-                      <span className={newCommentstyles.dragText}>
-                        Attach files by draging & dropping, selecting or pasting
-                        them.
-                      </span>
-                    </div>
-                  </div>
-                  <div className={styles.markDownButton}>
-                    <button className={styles.closeButton}>Close issue</button>
-                    <button
-                      className={styles.commentButton}
-                      // disabled={body.length !== 0 ? false : true}
-                      type="submit"
-                    >
-                      Comment
-                    </button>
-                  </div>
+                <BodyComposer body={body} handleChangeBody={handleChangeBody} />
+                <div className={styles.markDownButton}>
+                  <button className={styles.closeButton} type="button">
+                    Close issue
+                  </button>
+                  <button
+                    className={styles.commentButton}
+                    // disabled={body.length !== 0 ? false : true}
+                    type="submit"
+                  >
+                    Comment
+                  </button>
                 </div>
               </div>
             </div>
