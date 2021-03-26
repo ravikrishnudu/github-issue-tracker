@@ -1,7 +1,7 @@
 import React from "react";
 import { v4 as uuidv4 } from "uuid";
 
-import "./app.css";
+import styles from "./app.module.css";
 
 class Footer extends React.Component {
   render() {
@@ -10,15 +10,15 @@ class Footer extends React.Component {
 
     return (
       <div>
-        <button className="footer-buttons">
+        <button className={styles.footerButtons}>
           {incompleteCount} items left{" "}
         </button>
-        <button className="footer-buttons">All</button>
-        <button className="footer-buttons">Active</button>
-        <button className="footer-buttons" onClick={completed}>
+        <button className={styles.footerButtons}>All</button>
+        <button className={styles.footerButtons}>Active</button>
+        <button className={styles.footerButtons} onClick={completed}>
           completed
         </button>
-        <button className="footer-buttons" onClick={clearCompleted}>
+        <button className={styles.footerButtons} onClick={clearCompleted}>
           clear completed
         </button>
       </div>
@@ -32,8 +32,8 @@ class Todo extends React.PureComponent {
     const { todo, handleCheck, deleteTodo } = this.props;
     const { done, id, name } = todo;
     return (
-      <div className="delete">
-        <div className="checkbox">
+      <div className={styles.delete}>
+        <div className={styles.checkbox}>
           <input
             type="checkbox"
             id="check"
@@ -42,7 +42,7 @@ class Todo extends React.PureComponent {
           />
           <label htmlFor="check-label"> {name} </label>
         </div>
-        <div className="destroy" onClick={() => deleteTodo(id)}>
+        <div className={styles.destroy} onClick={() => deleteTodo(id)}>
           x
         </div>
       </div>
@@ -120,20 +120,23 @@ class App extends React.Component {
     let incompleteCount = todoList.filter((todo) => todo.done === false).length;
 
     return (
-      <div className="App">
-        <div className="heading">todo's...</div>
+      <div className={styles.App}>
+        <div className={styles.heading}>todo's...</div>
         <div>
           <input
-            className="inputcheck"
+            className={styles.inputCheck}
             placeholder="what needs  to be done?"
             value={inputValue}
             onChange={(event) => this.handleChange(event)}
           />
-          <button className="submitValuebutton" onClick={this.submitValue}>
+          <button
+            className={styles.submitValueButton}
+            onClick={this.submitValue}
+          >
             Enter
           </button>
         </div>
-        <div className="list-items ">
+        <div className={styles.listItems}>
           {todoList.map((todo, index) => (
             <Todo
               todo={todo}
