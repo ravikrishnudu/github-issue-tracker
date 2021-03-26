@@ -1,5 +1,6 @@
 .commentWrapper {
   display: flex;
+  justify-content: center;
 }
 .avatarUrl {
   width: 40px;
@@ -140,8 +141,6 @@
   border-radius: 6px;
   border: 1px solid;
   cursor: pointer;
-  /* color: rgb(36, 41, 46); */
-  /* border-color: rgba(27, 31, 35, 0.1); */
 }
 .disabledButton {
   border: 1px solid;
@@ -153,5 +152,4 @@
   padding: 5px 16px;
   border-radius: 6px;
   cursor: pointer;
-  /* color: rgb(36, 41, 46); */
 }
