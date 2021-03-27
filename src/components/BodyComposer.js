@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+
 import styles from "./BodyComposer.module.css";
 
 export default class BodyComposer extends Component {
@@ -33,9 +34,7 @@ export default class BodyComposer extends Component {
             </button>
             <button
               type="button"
-              className={
-                preview ? styles.prevButton : styles.disabledPreviewButton
-              }
+              className={styles.prevButton}
               onClick={this.handlePreview}
             >
               Preview
