@@ -46,7 +46,14 @@
   width: 845px;
   border-radius: 6px;
   border: 1px solid rgb(225, 228, 232);
+  outline: none;
 }
+
+.titleInput:focus {
+  border-color: #2188ff;
+  box-shadow: 0 0 0 3px rgba(3, 102, 214, 0.3);
+}
+
 .commentTabNav {
   display: flex;
   align-items: center;

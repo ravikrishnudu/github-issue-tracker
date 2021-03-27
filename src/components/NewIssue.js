@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import styles from "./NewIssue.module.css";
 import BodyComposer from "./BodyComposer";
-import Text from "./Text";
 import Button from "./Button";
 
 export default class NewIssue extends Component {

@@ -8,6 +8,7 @@
   border-radius: 6px;
   border: 1px solid;
   cursor: pointer;
+  /* outline: none; */
 }
 .disabledButton {
   border: 1px solid;
@@ -19,4 +20,5 @@
   padding: 5px 16px;
   border-radius: 6px;
   cursor: pointer;
+  outline: none;
 }
