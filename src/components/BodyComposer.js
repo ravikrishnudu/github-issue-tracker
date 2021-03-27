@@ -26,16 +26,16 @@ export default class BodyComposer extends Component {
         <div className={styles.commentTabNav}>
           <div className={styles.TabNavTabs}>
             <button
-              type="button"
-              className={styles.writeButton}
+              className={preview ? styles.inactiveButton : styles.writeButton}
               onClick={this.handleWrite}
+              type="button"
             >
               Write
             </button>
             <button
-              type="button"
-              className={styles.prevButton}
+              className={preview ? styles.prevButton : styles.inactiveButton}
               onClick={this.handlePreview}
+              type="button"
             >
               Preview
             </button>
@@ -53,11 +53,13 @@ export default class BodyComposer extends Component {
             />
           )}
 
-          <div className={styles.dragAndDropText}>
-            <span className={styles.dragText}>
-              Attach files by draging & dropping, selecting or pasting them.
-            </span>
-          </div>
+          {preview ? null : (
+            <div className={styles.dragAndDropText}>
+              <span className={styles.dragText}>
+                Attach files by draging & dropping, selecting or pasting them.
+              </span>
+            </div>
+          )}
         </div>
       </div>
     );
