@@ -38,7 +38,7 @@ async function getLabels() {
   }).then((res) => res.json());
 }
 function IssueDetails({
-  issue: { title, number, user, updated_at, comments },
+  issue: { title, number, user, updated_at, comments, state },
 }) {
   return (
     <div className={styles.issueDetails}>
@@ -52,7 +52,13 @@ function IssueDetails({
         </a>
       </div>
       <div className={styles.issueTitleDetails}>
-        <button className={styles.openButton}>Open</button>
+        <div
+          className={
+            state !== "closed" ? styles.openButton : styles.closedIssueButton
+          }
+        >
+          {state}
+        </div>
         <div className={styles.userDetails}>
           <span className={styles.userLogin}>{user.login}</span>
           <span>
@@ -168,11 +174,39 @@ class DiscussionSideBar extends Component {
 }
 
 class NewComment extends Component {
+  closeIssue = () => {
+    const { issueNumber } = this.props;
+    const issue = {
+      owner: "ravikrishnudu",
+      repo: "git",
+      issue_number: issueNumber,
+      state: "closed",
+    };
+
+    fetch(
+      `https://api.github.com/repos/ravikrishnudu/git/issues/${issueNumber}`,
+      {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${process.env.REACT_APP_TOKEN}`,
+        },
+        body: JSON.stringify(issue),
+      }
+    )
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("Success:", data);
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
+  };
+
   render() {
     const { body, handleChangeBody, handleSubmit } = this.props;
     return (
       <div>
-        {" "}
         <form onSubmit={handleSubmit}>
           <div className={newCommentstyles.commentWrapper}>
             <div>
@@ -185,8 +219,12 @@ class NewComment extends Component {
             <div className={newCommentstyles.leftArrow}>
               <div className={newCommentstyles.commentBox}>
                 <BodyComposer body={body} handleChangeBody={handleChangeBody} />
-                <div className={styles.markDownButton}>
-                  <button className={styles.closeButton} type="button">
+                <div className={styles.commentButtons}>
+                  <button
+                    className={styles.closeButton}
+                    type="button"
+                    onClick={this.closeIssue}
+                  >
                     Close issue
                   </button>
                   <Button disabled={body === ""}>Comment</Button>
@@ -254,7 +292,6 @@ class Issue extends Component {
           this.setState({ comments, body: " " });
         });
       })
-
       .catch((error) => {
         console.error("Error:", error);
       });
@@ -281,6 +318,7 @@ class Issue extends Component {
             <div className={styles.newComment}>
               <NewComment
                 body={body}
+                issueNumber={issue.number}
                 handleChangeBody={this.handleChangeBody}
                 handleSubmit={this.handleSubmit}
               />

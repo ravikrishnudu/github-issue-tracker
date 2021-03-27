@@ -73,7 +73,22 @@
   cursor: pointer;
   padding: 5px 25px;
   margin-right: 8px;
+  outline: none;
 }
+.closedIssueButton {
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 20px;
+  border: 1px solid;
+  border-radius: 26px;
+  background-color: #d73a49;
+  color: rgb(255, 255, 255);
+  cursor: pointer;
+  padding: 5px 25px;
+  margin-right: 8px;
+  outline: none;
+}
+
 .userDetails {
   color: rgb(88, 96, 105);
   margin-bottom: 5px;
@@ -148,7 +163,7 @@
   margin-top: 20px;
 }
 
-.markDownButton {
+.commentButtons {
   display: flex;
   justify-content: flex-end;
   align-items: center;
