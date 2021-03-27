@@ -4,17 +4,7 @@ import { formatDistance, parseISO } from "date-fns";
 import Labels from "./Labels";
 import CommentContainer from "./CommentContainer";
 import BodyComposer from "./BodyComposer";
-// import {
-//   Listbox,
-//   ListboxInput,
-//   ListboxButton,
-//   ListboxPopover,
-//   ListboxList,
-//   ListboxOption,
-// } from "@reach/listbox";
-// import "@reach/listbox/styles.css";
-// import Markdown from "./Markdown";
-// import { LabelText } from "./Text";
+import Button from "./Button";
 import styles from "./Issue.module.css";
 import newCommentstyles from "./NewIssue.module.css";
 
@@ -199,13 +189,7 @@ class NewComment extends Component {
                   <button className={styles.closeButton} type="button">
                     Close issue
                   </button>
-                  <button
-                    className={styles.commentButton}
-                    // disabled={body.length !== 0 ? false : true}
-                    type="submit"
-                  >
-                    Comment
-                  </button>
+                  <Button disabled={body === ""}>Comment</Button>
                 </div>
               </div>
             </div>

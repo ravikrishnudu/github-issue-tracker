@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 import styles from "./NewIssue.module.css";
-import marked from "marked";
 import BodyComposer from "./BodyComposer";
+import Text from "./Text";
+import Button from "./Button";
 
 export default class NewIssue extends Component {
   constructor(props) {
@@ -78,15 +79,7 @@ export default class NewIssue extends Component {
                   <span className={styles.markdownText}>
                     Styling with Markdown is supported
                   </span>
-                  <button
-                    // className={styles.newIssuebtn}
-                    className={
-                      title ? styles.disabledButton : styles.newIssuebtn
-                    }
-                    type="submit"
-                  >
-                    Submit new issue
-                  </button>
+                  <Button disabled={title === ""}>Submit new issue</Button>
                 </div>
               </div>
             </div>
