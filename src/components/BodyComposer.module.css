@@ -24,19 +24,24 @@
   border-top-left-radius: 6px;
   border-top-right-radius: 6px;
   border-bottom-style: none;
+  outline: none;
+  position: relative;
+  bottom: -1px;
 }
 
-.disabledPreviewButton {
+.inactiveButton {
   font-size: 14px;
   font-weight: 400;
   line-height: 23px;
   padding: 8px 16px;
   cursor: pointer;
   color: rgb(36, 41, 46);
+  background-color: rgb(0, 0, 0, 0);
   border: 1px solid rgb(225, 228, 232);
   border-top-left-radius: 6px;
   border-top-right-radius: 6px;
-  border-bottom-style: none;
+  border-style: none;
+  outline: none;
 }
 
 .writeContent {
@@ -57,7 +62,13 @@
   border-bottom-style: dashed;
   border-top-left-radius: 6px;
   border-top-right-radius: 6px;
+  outline: #2188ff;
 }
+.commentTextarea:focus {
+  border-color: #2188ff;
+  box-shadow: 0 0 0 3px rgba(3, 102, 214, 0.3);
+}
+
 .dragText {
   font-size: 13px;
   font-weight: 400;
@@ -71,10 +82,13 @@
 }
 .dragAndDropText {
   padding: 5px;
-  border-top-style: none;
+  /* border-top-style: none; */
   border: 1px solid rgb(225, 228, 232);
-  border-top-width: 1.1111px;
   border-bottom-color: rgb(223, 226, 229);
   border-bottom-left-radius: 6px;
   border-bottom-right-radius: 6px;
+}
+.dragAndDropText:focus {
+  border-color: #2188ff;
+  box-shadow: 0 0 0 3px rgba(3, 102, 214, 0.3);
 }
