@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import cx from "classnames";
 
 import styles from "./BodyComposer.module.css";
 
@@ -26,14 +27,20 @@ export default class BodyComposer extends Component {
         <div className={styles.commentTabNav}>
           <div className={styles.TabNavTabs}>
             <button
-              className={preview ? styles.inactiveButton : styles.writeButton}
+              className={cx(
+                preview ? styles.inactiveButton : styles.activeButton,
+                styles.button
+              )}
               onClick={this.handleWrite}
               type="button"
             >
               Write
             </button>
             <button
-              className={preview ? styles.prevButton : styles.inactiveButton}
+              className={cx(
+                preview ? styles.activeButton : styles.inactiveButton,
+                styles.button
+              )}
               onClick={this.handlePreview}
               type="button"
             >
@@ -43,13 +50,15 @@ export default class BodyComposer extends Component {
         </div>
         <div className={styles.writeContent}>
           {preview ? (
-            <div className={styles.commentTextarea}>{body}</div>
+            <div className={styles.commentTextarea}>
+              {body ? body : "Nothing to preview"}
+            </div>
           ) : (
             <textarea
               placeholder="Leave a comment"
               className={styles.commentTextarea}
               value={body}
-              onChange={(event) => handleChangeBody(event)}
+              onChange={handleChangeBody}
             />
           )}
 
