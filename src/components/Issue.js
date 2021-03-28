@@ -37,6 +37,7 @@ async function getLabels() {
     },
   }).then((res) => res.json());
 }
+
 function IssueDetails({
   issue: { title, number, user, updated_at, comments, state },
 }) {
@@ -108,9 +109,7 @@ class DiscussionSideBar extends Component {
   render() {
     const { issue } = this.props;
     const { labels } = this.state;
-    if (!labels) {
-      return <div>Loading......</div>;
-    }
+
     console.log(labels);
     return (
       <div className={styles.rightContainer}>
@@ -134,11 +133,11 @@ class DiscussionSideBar extends Component {
         <div className={styles.elementContainer}>
           <div className={styles.elementTitle}>Labels</div>
 
-          <div>
+          {/* <div>
             {labels.map((label) => (
               <ListLabels key={label.id} label={label} />
             ))}
-          </div>
+          </div> */}
           <div className={styles.label}>
             <Labels labels={issue.labels} />
           </div>
@@ -174,37 +173,8 @@ class DiscussionSideBar extends Component {
 }
 
 class NewComment extends Component {
-  closeIssue = () => {
-    const { issueNumber } = this.props;
-    const issue = {
-      owner: "ravikrishnudu",
-      repo: "git",
-      issue_number: issueNumber,
-      state: "closed",
-    };
-
-    fetch(
-      `https://api.github.com/repos/ravikrishnudu/git/issues/${issueNumber}`,
-      {
-        method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${process.env.REACT_APP_TOKEN}`,
-        },
-        body: JSON.stringify(issue),
-      }
-    )
-      .then((response) => response.json())
-      .then((data) => {
-        console.log("Success:", data);
-      })
-      .catch((error) => {
-        console.error("Error:", error);
-      });
-  };
-
   render() {
-    const { body, handleChangeBody, handleSubmit } = this.props;
+    const { body, handleChangeBody, handleSubmit, closeIssue } = this.props;
     return (
       <div>
         <form onSubmit={handleSubmit}>
@@ -223,7 +193,7 @@ class NewComment extends Component {
                   <button
                     className={styles.closeButton}
                     type="button"
-                    onClick={this.closeIssue}
+                    onClick={closeIssue}
                   >
                     Close issue
                   </button>
@@ -243,7 +213,7 @@ class Issue extends Component {
     super(props);
     this.state = {
       issue: null,
-      comments: [],
+      comments: null,
       body: "",
     };
   }
@@ -297,9 +267,40 @@ class Issue extends Component {
       });
   };
 
+  closeIssue = () => {
+    const { issue } = this.state;
+    const closedIssue = {
+      owner: "ravikrishnudu",
+      repo: "git",
+      issue_number: issue.number,
+      state: issue.state !== "closed" ? "closed" : "open",
+    };
+
+    fetch(
+      `https://api.github.com/repos/ravikrishnudu/git/issues/${issue.number}`,
+      {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${process.env.REACT_APP_TOKEN}`,
+        },
+        body: JSON.stringify(closedIssue),
+      }
+    )
+      .then((response) => response.json())
+      .then((data) => {
+        const updatedissue = data;
+        console.log(updatedissue);
+        this.setState({ issue: data });
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
+  };
+
   render() {
     const { issue, comments, body } = this.state;
-    if (!issue) {
+    if (!issue || !comments) {
       return <div>Loading....</div>;
     }
     console.log(issue);
@@ -318,9 +319,11 @@ class Issue extends Component {
             <div className={styles.newComment}>
               <NewComment
                 body={body}
+                issue={issue}
                 issueNumber={issue.number}
                 handleChangeBody={this.handleChangeBody}
                 handleSubmit={this.handleSubmit}
+                closeIssue={this.closeIssue}
               />
             </div>
           </div>
