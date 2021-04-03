@@ -39,16 +39,31 @@
 
 .issueCommentHead {
   display: flex;
+  align-items: center;
   width: 860px;
   font-size: 14px;
   color: rgb(88, 96, 105);
   border-bottom: 1px solid;
   border-color: rgba(27, 31, 35, 0.15);
-  padding: 8px 16px;
+  padding: 8px 8px;
   margin-bottom: 1px;
   overflow-wrap: break-word;
 }
-
+.issueCommentDetails {
+  display: flex;
+  width: 800px;
+}
+.listBox {
+  display: flex;
+  justify-content: flex-end;
+  outline: none;
+}
+.listBoxOption {
+  /* width: 100%; */
+  text-align: left;
+  display: block;
+  padding: 4px 8px 4px 16px;
+}
 .leftContainer {
   width: 846px;
   display: block;
