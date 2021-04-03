@@ -4,6 +4,7 @@ import { Listbox, ListboxOption } from "@reach/listbox";
 import "@reach/listbox/styles.css";
 
 import BodyComposer from "./BodyComposer";
+import Button from "./Button";
 import Markdown from "./Markdown";
 import "./Markdown.css";
 import styles from "./CommentContainer.module.css";
@@ -11,7 +12,7 @@ import styles from "./CommentContainer.module.css";
 export default class CommentContainer extends Component {
   constructor(props) {
     super(props);
-    this.state = { editComment: false };
+    this.state = { editComment: true };
   }
   handleDelete = () => {
     const { id, fetchComments } = this.props;
@@ -42,9 +43,21 @@ export default class CommentContainer extends Component {
         console.error("Error:", error);
       });
   };
-  handleEdit = () => {};
+  handleEdit = () => {
+    this.setState({ editComment: false });
+  };
+  closeBodyComposer = () => {
+    this.setState({ editComment: true });
+  };
   render() {
-    const { body, updated_at, user } = this.props;
+    const { editComment } = this.state;
+    const {
+      body,
+      updated_at,
+      user,
+      handleChangeBody,
+      handleSubmit,
+    } = this.props;
     return (
       <div className={styles.commentContainer}>
         <img
@@ -52,46 +65,76 @@ export default class CommentContainer extends Component {
           src={user.avatar_url}
           alt="user profile logo"
         />
-        <div className={styles.leftArrow}>
-          <div className={styles.commentBody}>
-            <div className={styles.issueCommentHead}>
-              <div className={styles.issueCommentDetails}>
-                <div className={styles.userLogin}>{user.login} </div>
+        {editComment ? (
+          <>
+            <div className={styles.leftArrow}>
+              <div className={styles.commentBody}>
+                <div className={styles.issueCommentHead}>
+                  <div className={styles.issueCommentDetails}>
+                    <div className={styles.userLogin}>{user.login} </div>
+                    <div>
+                      commented{" "}
+                      {formatDistance(Date.now(), parseISO(updated_at))} ago
+                    </div>
+                  </div>
+                  <div className={styles.listBox}>
+                    <button onClick={this.handleEdit}>Edit</button>
+                    {/* <button onClick={this.handleDelete}>delete</button> */}
+
+                    <Listbox defaultValue="ravi">
+                      <ListboxOption value="ravi">....</ListboxOption>
+                      <ListboxOption
+                        className={styles.listBoxOption}
+                        value="edit"
+                      >
+                        Edit
+                      </ListboxOption>
+                      <ListboxOption
+                        className={styles.listBoxOption}
+                        value="hide"
+                        onClick={this.handleEdit}
+                      >
+                        Hide
+                      </ListboxOption>
+                      <ListboxOption
+                        onClick={this.handleDelete}
+                        className={styles.listBoxOption}
+                        value="delete"
+                      >
+                        Delete
+                      </ListboxOption>
+                    </Listbox>
+                  </div>
+                </div>
+
                 <div>
-                  commented {formatDistance(Date.now(), parseISO(updated_at))}{" "}
-                  ago
+                  <div className={styles.leftContainer}>
+                    <Markdown body={body} />
+                  </div>
                 </div>
               </div>
-              <div className={styles.listBox}>
-                <button onClick={this.handleEdit}>Edit</button>
-                {/* <button onClick={this.handleDelete}>delete</button> */}
-
-                <Listbox defaultValue="ravi">
-                  <ListboxOption value="ravi">....</ListboxOption>
-                  <ListboxOption className={styles.listBoxOption} value="edit">
-                    Edit
-                  </ListboxOption>
-                  <ListboxOption className={styles.listBoxOption} value="hide">
-                    Hide
-                  </ListboxOption>
-                  <ListboxOption
-                    onClick={this.handleDelete}
-                    className={styles.listBoxOption}
-                    value="delete"
-                  >
-                    Delete
-                  </ListboxOption>
-                </Listbox>
-              </div>
             </div>
-
-            <div>
-              <div className={styles.leftContainer}>
-                <Markdown body={body} />
+          </>
+        ) : (
+          <div>
+            <div className={styles.commentBody}>
+              <BodyComposer
+                handleSubmit={handleSubmit}
+                body={body}
+                handleChangeBody={handleChangeBody}
+              />
+              <div className={styles.BodyComposerButtons}>
+                <button
+                  className={styles.cancelButton}
+                  onClick={this.closeBodyComposer}
+                >
+                  Cancel
+                </button>
+                <Button>Update Commment</Button>
               </div>
             </div>
           </div>
-        </div>
+        )}
       </div>
     );
   }

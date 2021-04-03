@@ -24,6 +24,10 @@
   border: 1px solid rgba(27, 31, 35, 0.15);
   border-radius: 6px;
 }
+.commentBox {
+  border: 1px solid rgb(225, 228, 232);
+  border-radius: 6px;
+}
 .userImage {
   width: 40px;
   height: 40px;
@@ -72,5 +76,25 @@
   color: rgb(36, 41, 46);
   padding: 15px;
   overflow-wrap: break-word;
-  text-size-adjust: 100%;
+}
+.BodyComposerButtons {
+  display: flex;
+  justify-content: flex-end;
+  padding: 10px;
+}
+.cancelButton {
+  font-size: 14 px;
+  font-weight: 500;
+  line-height: 20px;
+  padding: 5px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-right: 8px;
+  border: 1px solid rgba(27, 31, 35, 0.15);
+  color: #d73a49;
+  outline: none;
+}
+.cancelButton:hover {
+  color: aliceblue;
+  background-color: #d73a49;
 }
