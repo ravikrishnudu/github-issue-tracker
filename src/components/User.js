@@ -51,7 +51,7 @@ export default class User extends Component {
             </span>
           </div>
           <div className={styles.details}>
-            T<div>{user.location}</div>
+            <div>{user.location}</div>
             <div>{user.email}</div>
             <div>{user.blog}</div>
             <div>{user.twitter_username}</div>

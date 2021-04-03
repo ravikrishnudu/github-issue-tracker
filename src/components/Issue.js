@@ -72,27 +72,25 @@ function IssueDetails({
     </div>
   );
 }
-class ListLabels extends Component {
-  render() {
-    const { label } = this.props;
-    // console.log(label);
-    return (
-      <div>
-        {/* <input type="checkbox" /> */}
-        <div>
-          <span style={{ backgroundColor: `#${label.color}` }}> {" .. "} </span>
-          <span to={`/labels/${label.color}`}>{label.name}</span>
-          <span>x</span>
-        </div>
-        <div>{label.description}</div>
-        {/* <Listbox >
-          <ListboxOption value="bojangles">{label.name}</ListboxOption>
-          <ListboxOption value="churchs">{label.description}s</ListboxOption>
-        </Listbox> */}
-      </div>
-    );
-  }
-}
+// class ListLabels extends Component {
+//   render() {
+//     const { label } = this.props;
+//     return (
+//       <div>
+//         <div>
+//           <span style={{ backgroundColor: `#${label.color}` }}> {" .. "} </span>
+//           <span to={`/labels/${label.color}`}>{label.name}</span>
+//           <span>x</span>
+//         </div>
+//         <div>{label.description}</div>
+//         <Listbox >
+//           <ListboxOption value="bojangles">{label.name}</ListboxOption>
+//           <ListboxOption value="churchs">{label.description}s</ListboxOption>
+//         </Listbox>
+//       </div>
+//     );
+//   }
+// }
 
 class DiscussionSideBar extends Component {
   constructor(props) {
@@ -108,9 +106,9 @@ class DiscussionSideBar extends Component {
   }
   render() {
     const { issue } = this.props;
-    const { labels } = this.state;
+    // const { labels } = this.state;
 
-    console.log(labels);
+    // console.log(labels);
     return (
       <div className={styles.rightContainer}>
         <div className={styles.elementContainer}>
@@ -217,15 +215,20 @@ class Issue extends Component {
       body: "",
     };
   }
+
+  fetchComments = () => {
+    const number = this.props.match.params.number;
+    getComments(number).then((comments) => {
+      this.setState({ comments, body: " " });
+    });
+  };
+
   componentDidMount() {
     const number = this.props.match.params.number;
     getIssue(number).then((issue) => {
       this.setState({ issue });
     });
-
-    getComments(number).then((comments) => {
-      this.setState({ comments });
-    });
+    this.fetchComments();
   }
 
   handleChangeBody = (event) => {
@@ -257,10 +260,6 @@ class Issue extends Component {
       .then((response) => response.json())
       .then((data) => {
         console.log("Success:", data);
-
-        getComments(issue.number).then((comments) => {
-          this.setState({ comments, body: " " });
-        });
       })
       .catch((error) => {
         console.error("Error:", error);
@@ -299,11 +298,12 @@ class Issue extends Component {
   };
 
   render() {
+    const number = this.props.match.params.number;
     const { issue, comments, body } = this.state;
     if (!issue || !comments) {
       return <div>Loading....</div>;
     }
-    console.log(issue);
+    console.log(comments);
     return (
       <div className={styles.mainContainer}>
         <IssueDetails issue={issue} />
@@ -313,7 +313,11 @@ class Issue extends Component {
 
             <div className={styles.comments}>
               {comments.map((comment) => (
-                <CommentContainer {...comment} key={comment.id} />
+                <CommentContainer
+                  {...comment}
+                  key={comment.id}
+                  fetchComments={this.fetchComments}
+                />
               ))}
             </div>
             <div className={styles.newComment}>
