@@ -11,6 +11,13 @@ export default class BodyComposer extends Component {
     };
   }
 
+  handleKeyDown = (e) => {
+    console.log(e);
+    if (e.ctrlKey && e.code === "Enter" && this.props.handleSubmit) {
+      this.props.handleSubmit(e);
+    }
+  };
+
   handlePreview = () => {
     this.setState({ preview: true });
   };
@@ -68,6 +75,7 @@ export default class BodyComposer extends Component {
               className={styles.commentTextarea}
               value={body}
               onChange={handleChangeBody}
+              onKeyDown={this.handleKeyDown}
             />
           )}
 

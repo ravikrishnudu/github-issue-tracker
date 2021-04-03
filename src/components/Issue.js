@@ -186,7 +186,11 @@ class NewComment extends Component {
             </div>
             <div className={newCommentstyles.leftArrow}>
               <div className={newCommentstyles.commentBox}>
-                <BodyComposer body={body} handleChangeBody={handleChangeBody} />
+                <BodyComposer
+                  handleSubmit={handleSubmit}
+                  body={body}
+                  handleChangeBody={handleChangeBody}
+                />
                 <div className={styles.commentButtons}>
                   <button
                     className={styles.closeButton}
@@ -260,6 +264,7 @@ class Issue extends Component {
       .then((response) => response.json())
       .then((data) => {
         console.log("Success:", data);
+        this.fetchComments();
       })
       .catch((error) => {
         console.error("Error:", error);
@@ -298,7 +303,7 @@ class Issue extends Component {
   };
 
   render() {
-    const number = this.props.match.params.number;
+    // const number = this.props.match.params.number;
     const { issue, comments, body } = this.state;
     if (!issue || !comments) {
       return <div>Loading....</div>;
