@@ -21,7 +21,7 @@ export default class BodyComposer extends Component {
   render() {
     const { preview } = this.state;
     const { body, handleChangeBody } = this.props;
-    console.log(this.props);
+    // console.log(this.props);
     return (
       <div className={styles.tabContainer}>
         <div className={styles.commentTabNav}>
@@ -45,6 +45,15 @@ export default class BodyComposer extends Component {
               type="button"
             >
               Preview
+            </button>
+          </div>
+          <div className={styles.markDownSymbols}>
+            <button className={styles.markDownSymbolH}>H</button>
+            <button className={styles.markDownSymbolB}>
+              <strong>B</strong>
+            </button>
+            <button className={styles.markDownSymbolI}>
+              <em>I</em>
             </button>
           </div>
         </div>
