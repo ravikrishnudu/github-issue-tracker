@@ -11,6 +11,40 @@
   margin: 8px 8px 0px 8px;
   /* display: block; */
 }
+.markDownSymbols {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  margin-left: 450px;
+  font-size: 16px;
+  padding: 4px;
+  color: rgb(88, 96, 105);
+  cursor: pointer;
+}
+.markDownSymbolH {
+  padding: 5px 5px;
+  color: rgb(36, 41, 46);
+  background-color: rgba(0, 0, 0, 0);
+  border-color: rgba(0, 0, 0, 0);
+  outline: none;
+}
+.markDownSymbolB {
+  outline: none;
+  color: rgb(88, 96, 105);
+  margin-left: 10px;
+  padding: 5px 5px;
+  color: rgb(36, 41, 46);
+  background-color: rgba(0, 0, 0, 0);
+  border-color: rgba(0, 0, 0, 0);
+}
+.markDownSymbolI {
+  outline: none;
+  margin-left: 10px;
+  padding: 5px 5px;
+  color: rgb(36, 41, 46);
+  background-color: rgba(0, 0, 0, 0);
+  border-color: rgba(0, 0, 0, 0);
+}
 
 .button {
   font-size: 14px;
