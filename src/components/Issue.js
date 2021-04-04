@@ -172,7 +172,13 @@ class DiscussionSideBar extends Component {
 
 class NewComment extends Component {
   render() {
-    const { body, handleChangeBody, handleSubmit, closeIssue } = this.props;
+    const {
+      body,
+      handleChangeBody,
+      handleSubmit,
+      closeIssue,
+      issue,
+    } = this.props;
     return (
       <div>
         <form onSubmit={handleSubmit}>
@@ -197,7 +203,7 @@ class NewComment extends Component {
                     type="button"
                     onClick={closeIssue}
                   >
-                    Close issue
+                    {issue.state === "open" ? "Close issue" : "Reopen issue"}
                   </button>
                   <Button disabled={body === ""}>Comment</Button>
                 </div>
@@ -226,12 +232,15 @@ class Issue extends Component {
       this.setState({ comments, body: " " });
     });
   };
-
-  componentDidMount() {
+  fetchIssue = () => {
     const number = this.props.match.params.number;
     getIssue(number).then((issue) => {
       this.setState({ issue });
     });
+  };
+
+  componentDidMount() {
+    this.fetchIssue();
     this.fetchComments();
   }
 
@@ -244,9 +253,6 @@ class Issue extends Component {
 
     const { body, issue } = this.state;
     const comment = {
-      owner: "ravikrishnudu",
-      repo: "git",
-      issue_number: issue.number,
       body: body,
     };
 
@@ -263,7 +269,7 @@ class Issue extends Component {
     )
       .then((response) => response.json())
       .then((data) => {
-        console.log("Success:", data);
+        console.log(data);
         this.fetchComments();
       })
       .catch((error) => {
@@ -274,9 +280,6 @@ class Issue extends Component {
   closeIssue = () => {
     const { issue } = this.state;
     const closedIssue = {
-      owner: "ravikrishnudu",
-      repo: "git",
-      issue_number: issue.number,
       state: issue.state !== "closed" ? "closed" : "open",
     };
 
@@ -291,11 +294,9 @@ class Issue extends Component {
         body: JSON.stringify(closedIssue),
       }
     )
-      .then((response) => response.json())
+      // .then((response) => response.json())
       .then((data) => {
-        const updatedissue = data;
-        console.log(updatedissue);
-        this.setState({ issue: data });
+        this.fetchIssue();
       })
       .catch((error) => {
         console.error("Error:", error);
@@ -314,13 +315,15 @@ class Issue extends Component {
         <IssueDetails issue={issue} />
         <div className={styles.bodyContainer}>
           <div>
-            <CommentContainer {...issue} />
+            <CommentContainer {...issue} type="issue" />
 
             <div className={styles.comments}>
               {comments.map((comment) => (
                 <CommentContainer
                   {...comment}
+                  type="comment"
                   key={comment.id}
+                  issue={issue}
                   fetchComments={this.fetchComments}
                 />
               ))}
