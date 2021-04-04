@@ -9,10 +9,37 @@ import Markdown from "./Markdown";
 import "./Markdown.css";
 import styles from "./CommentContainer.module.css";
 
+function updateComment(id, data) {
+  return fetch(
+    `https://api.github.com/repos/ravikrishnudu/git/issues/comments/${id}`,
+    {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${process.env.REACT_APP_TOKEN}`,
+      },
+      body: JSON.stringify(data),
+    }
+  );
+}
+
+function updateIssue(number, issueData) {
+  return fetch(
+    `https://api.github.com/repos/ravikrishnudu/git/issues/${number}`,
+    {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${process.env.REACT_APP_TOKEN}`,
+      },
+      body: JSON.stringify(issueData),
+    }
+  );
+}
 export default class CommentContainer extends Component {
   constructor(props) {
     super(props);
-    this.state = { editComment: true };
+    this.state = { editComment: false, body: props.body };
   }
   handleDelete = () => {
     const { id, fetchComments } = this.props;
@@ -44,20 +71,50 @@ export default class CommentContainer extends Component {
       });
   };
   handleEdit = () => {
-    this.setState({ editComment: false });
-  };
-  closeBodyComposer = () => {
     this.setState({ editComment: true });
   };
+  handleChangeBody = (event) => {
+    this.setState({ body: event.target.value });
+  };
+  handleSubmit = async (event) => {
+    event.preventDefault();
+    const { body } = this.state;
+    const { id, fetchComments, type, number } = this.props;
+    const data = {
+      body: body,
+    };
+    if (type === "issue") {
+      const issueData = {
+        body: body,
+      };
+      updateIssue(number, issueData)
+        .then((data) => {
+          this.closeBodyComposer();
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    } else {
+      updateComment(id, data)
+        .then((data) => {
+          this.closeBodyComposer();
+          console.log("Success:", data);
+          setTimeout(() => {
+            fetchComments();
+          }, 30 * 1000);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
+  };
+  closeBodyComposer = () => {
+    this.setState({ editComment: false });
+  };
   render() {
-    const { editComment } = this.state;
-    const {
-      body,
-      updated_at,
-      user,
-      handleChangeBody,
-      handleSubmit,
-    } = this.props;
+    const { editComment, body } = this.state;
+    const { updated_at, user, type } = this.props;
+
     return (
       <div className={styles.commentContainer}>
         <img
@@ -65,7 +122,7 @@ export default class CommentContainer extends Component {
           src={user.avatar_url}
           alt="user profile logo"
         />
-        {editComment ? (
+        {!editComment ? (
           <>
             <div className={styles.leftArrow}>
               <div className={styles.commentBody}>
@@ -78,7 +135,7 @@ export default class CommentContainer extends Component {
                     </div>
                   </div>
                   <div className={styles.listBox}>
-                    <button onClick={this.handleEdit}>Edit</button>
+                    {/* <button onClick={this.handleEdit}>Edit</button> */}
                     {/* <button onClick={this.handleDelete}>delete</button> */}
 
                     <Listbox defaultValue="ravi">
@@ -86,23 +143,25 @@ export default class CommentContainer extends Component {
                       <ListboxOption
                         className={styles.listBoxOption}
                         value="edit"
+                        onClick={this.handleEdit}
                       >
                         Edit
                       </ListboxOption>
                       <ListboxOption
                         className={styles.listBoxOption}
                         value="hide"
-                        onClick={this.handleEdit}
                       >
                         Hide
                       </ListboxOption>
-                      <ListboxOption
-                        onClick={this.handleDelete}
-                        className={styles.listBoxOption}
-                        value="delete"
-                      >
-                        Delete
-                      </ListboxOption>
+                      {type === "comment" ? (
+                        <ListboxOption
+                          onClick={this.handleDelete}
+                          className={styles.listBoxOption}
+                          value="delete"
+                        >
+                          Delete
+                        </ListboxOption>
+                      ) : null}
                     </Listbox>
                   </div>
                 </div>
@@ -116,12 +175,13 @@ export default class CommentContainer extends Component {
             </div>
           </>
         ) : (
-          <div>
+          <form onSubmit={this.handleSubmit}>
             <div className={styles.commentBody}>
               <BodyComposer
-                handleSubmit={handleSubmit}
+                // handleSubmit={handleSubmit}
                 body={body}
-                handleChangeBody={handleChangeBody}
+                // body={this.props.body}
+                handleChangeBody={this.handleChangeBody}
               />
               <div className={styles.BodyComposerButtons}>
                 <button
@@ -133,7 +193,7 @@ export default class CommentContainer extends Component {
                 <Button>Update Commment</Button>
               </div>
             </div>
-          </div>
+          </form>
         )}
       </div>
     );
