@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { formatDistance, parseISO } from "date-fns";
 
@@ -10,11 +10,10 @@ async function getRepos() {
   ).then((res) => res.json());
 }
 
-class Repository extends Component {
-  render() {
-    const { repo } = this.props;
-
-    return (
+function Repository({ repo, isRepo: { id } }) {
+  console.log(id);
+  return (
+    <>
       <div className={styles.repoContainer}>
         <div className={styles.repoBody}>
           <Link className={styles.repoName}>{repo.name}</Link>
@@ -30,31 +29,24 @@ class Repository extends Component {
         </div>
         <div>{repo.fork}</div>
       </div>
-    );
-  }
+    </>
+  );
 }
 
-export default class Repositories extends Component {
-  constructor(props) {
-    super(props);
-    this.state = { repos: [] };
-  }
+export default function Repositories() {
+  const [repos, setRepos] = useState([]);
 
-  componentDidMount() {
+  useEffect(() => {
     getRepos().then((repos) => {
-      this.setState({ repos });
+      setRepos(repos);
     });
-  }
+  }, []);
 
-  render() {
-    console.log(this.state.repos);
-    const { repos } = this.state;
-    return (
-      <div>
-        {repos.map((repo) => (
-          <Repository repo={repo} key={repo.id} />
-        ))}
-      </div>
-    );
-  }
+  return (
+    <div>
+      {repos.map((repo) => (
+        <Repository repo={repo} isRepo={{ id: 1 }} key={repo.id} />
+      ))}
+    </div>
+  );
 }

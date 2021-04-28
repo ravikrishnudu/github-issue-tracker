@@ -1,35 +1,31 @@
-import React, { Component } from "react";
+import React, { useState, useEffect } from "react";
 
 import Repositories from "./Repositories";
 import styles from "./User.module.css";
 
 async function getUser(username) {
-  return fetch(
-    `${process.env.REACT_APP_API_URL}/users/${username}`
-  ).then((res) => res.json());
+  try {
+    const responce = await fetch(
+      `${process.env.REACT_APP_API_URL}/users/${username}`
+    );
+    return responce.json();
+  } catch (error) {}
 }
 
-export default class User extends Component {
-  constructor(props) {
-    super(props);
-    this.state = { user: undefined };
+export default function User(props) {
+  const [user, setUser] = useState(undefined);
+
+  const username = props.match.params.username;
+  useEffect(async () => {
+    const user = await getUser(username);
+    setUser(user);
+  }, [username]);
+
+  if (user === undefined || !Repositories) {
+    return <div>No data found</div>;
   }
-
-  componentDidMount() {
-    const username = this.props.match.params.username;
-    getUser(username).then((user) => {
-      this.setState({ user });
-    });
-  }
-
-  render() {
-    const { user } = this.state;
-    const username = this.props.match.params.username;
-    if (user === undefined) {
-      return <div>No data found</div>;
-    }
-
-    return (
+  return (
+    <div>
       <div className={styles.mainContainer}>
         <div className={styles.leftContaainer}>
           <img
@@ -63,6 +59,6 @@ export default class User extends Component {
         </div>
         <Repositories username={username} />
       </div>
-    );
-  }
+    </div>
+  );
 }
