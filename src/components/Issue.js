@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, useState, useEffect } from "react";
 import { formatDistance, parseISO } from "date-fns";
 
 import Labels from "./Labels";
@@ -30,13 +30,13 @@ async function getComments(issueNumber) {
   ).then((res) => res.json());
 }
 
-async function getLabels() {
-  return fetch(`https://api.github.com/repos/ravikrishnudu/git/labels`, {
-    headers: {
-      Authorization: `Bearer ${process.env.REACT_APP_TOKEN}`,
-    },
-  }).then((res) => res.json());
-}
+// async function getLabels() {
+//   return fetch(`https://api.github.com/repos/ravikrishnudu/git/labels`, {
+//     headers: {
+//       Authorization: `Bearer ${process.env.REACT_APP_TOKEN}`,
+//     },
+//   }).then((res) => res.json());
+// }
 
 function IssueDetails({
   issue: { title, number, user, updated_at, comments, state },
@@ -72,148 +72,109 @@ function IssueDetails({
     </div>
   );
 }
-// class ListLabels extends Component {
-//   render() {
-//     const { label } = this.props;
-//     return (
-//       <div>
-//         <div>
-//           <span style={{ backgroundColor: `#${label.color}` }}> {" .. "} </span>
-//           <span to={`/labels/${label.color}`}>{label.name}</span>
-//           <span>x</span>
-//         </div>
-//         <div>{label.description}</div>
-//         <Listbox >
-//           <ListboxOption value="bojangles">{label.name}</ListboxOption>
-//           <ListboxOption value="churchs">{label.description}s</ListboxOption>
-//         </Listbox>
-//       </div>
-//     );
-//   }
-// }
 
-class DiscussionSideBar extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      labels: null,
-    };
-  }
-  componentDidMount() {
-    getLabels().then((labels) => {
-      this.setState({ labels });
-    });
-  }
-  render() {
-    const { issue } = this.props;
-    // const { labels } = this.state;
-
-    // console.log(labels);
-    return (
-      <div className={styles.rightContainer}>
-        <div className={styles.elementContainer}>
-          <div className={styles.elementTitle}>Assignees</div>
-          <div>
-            {issue.assignees.length !== 0
-              ? issue.assignees.map((assignee) => (
-                  <div className={styles.dataCard}>
-                    <img
-                      className={styles.avataruserImage}
-                      src={assignee.avatar_url}
-                      alt="user profile logo"
-                    />
-                    <div>{assignee.login}</div>
-                  </div>
-                ))
-              : "No one assigned"}
-          </div>
-        </div>
-        <div className={styles.elementContainer}>
-          <div className={styles.elementTitle}>Labels</div>
-
-          {/* <div>
-            {labels.map((label) => (
-              <ListLabels key={label.id} label={label} />
-            ))}
-          </div> */}
-          <div className={styles.label}>
-            <Labels labels={issue.labels} />
-          </div>
-        </div>
-        <div className={styles.elementContainer}>
-          <div className={styles.elementTitle}>Projects</div>
-          <span className={styles.elementChild}>None yet</span>
-        </div>
-        <div className={styles.elementContainer}>
-          <div className={styles.elementTitle}>Milestone</div>
-          <span className={styles.elementChild}>None Milestone</span>
-        </div>
-        <div className={styles.elementContainer}>
-          <div className={styles.elementTitle}>Linked pull requests</div>
-          <p className={styles.elementChild}>
-            Sucessfully merging a pull request may close this issue
-          </p>
-          <span className={styles.elementChild}>None yet</span>
-        </div>
-        <div className={styles.elementContainer}>
-          <div className={styles.childElements}>
-            <span className={styles.elementTitle}> Notifications</span>
-            <span className={styles.elementChild}>Customize</span>
-          </div>
-          <button className={styles.subButton}>Subscribe</button>
-          <p className={styles.elementChild}>
-            You’re not receiving notifications from this thread.
-          </p>
+function DiscussionSideBar({ issue }) {
+  // const [labels, setLables] = useState(null);
+  // useEffect(() => {
+  //   getLables().then((lables)=>{setLables(lables)})
+  // }, [])
+  // console.log(labels);
+  return (
+    <div className={styles.rightContainer}>
+      <div className={styles.elementContainer}>
+        <div className={styles.elementTitle}>Assignees</div>
+        <div>
+          {issue.assignees.length !== 0
+            ? issue.assignees.map((assignee) => (
+                <div className={styles.dataCard}>
+                  <img
+                    className={styles.avataruserImage}
+                    src={assignee.avatar_url}
+                    alt="user profile logo"
+                  />
+                  <div>{assignee.login}</div>
+                </div>
+              ))
+            : "No one assigned"}
         </div>
       </div>
-    );
-  }
+      <div className={styles.elementContainer}>
+        <div className={styles.elementTitle}>Labels</div>
+
+        <div className={styles.label}>
+          <Labels labels={issue.labels} />
+        </div>
+      </div>
+      <div className={styles.elementContainer}>
+        <div className={styles.elementTitle}>Projects</div>
+        <span className={styles.elementChild}>None yet</span>
+      </div>
+      <div className={styles.elementContainer}>
+        <div className={styles.elementTitle}>Milestone</div>
+        <span className={styles.elementChild}>None Milestone</span>
+      </div>
+      <div className={styles.elementContainer}>
+        <div className={styles.elementTitle}>Linked pull requests</div>
+        <p className={styles.elementChild}>
+          Sucessfully merging a pull request may close this issue
+        </p>
+        <span className={styles.elementChild}>None yet</span>
+      </div>
+      <div className={styles.elementContainer}>
+        <div className={styles.childElements}>
+          <span className={styles.elementTitle}> Notifications</span>
+          <span className={styles.elementChild}>Customize</span>
+        </div>
+        <button className={styles.subButton}>Subscribe</button>
+        <p className={styles.elementChild}>
+          You’re not receiving notifications from this thread.
+        </p>
+      </div>
+    </div>
+  );
 }
 
-class NewComment extends Component {
-  render() {
-    const {
-      body,
-      handleChangeBody,
-      handleSubmit,
-      closeIssue,
-      issue,
-    } = this.props;
-    return (
-      <div>
-        <form onSubmit={handleSubmit}>
-          <div className={newCommentstyles.commentWrapper}>
-            <div>
-              <img
-                className={newCommentstyles.avatarUrl}
-                alt="profile -img"
-                src="https://avatars.githubusercontent.com/u/52109411?s=80&v=4"
+function NewComment({
+  body,
+  handleChangeBody,
+  handleSubmit,
+  closeIssue,
+  issue,
+}) {
+  return (
+    <div>
+      <form onSubmit={handleSubmit}>
+        <div className={newCommentstyles.commentWrapper}>
+          <div>
+            <img
+              className={newCommentstyles.avatarUrl}
+              alt="profile -img"
+              src="https://avatars.githubusercontent.com/u/52109411?s=80&v=4"
+            />
+          </div>
+          <div className={newCommentstyles.leftArrow}>
+            <div className={newCommentstyles.commentBox}>
+              <BodyComposer
+                handleSubmit={handleSubmit}
+                body={body}
+                handleChangeBody={handleChangeBody}
               />
-            </div>
-            <div className={newCommentstyles.leftArrow}>
-              <div className={newCommentstyles.commentBox}>
-                <BodyComposer
-                  handleSubmit={handleSubmit}
-                  body={body}
-                  handleChangeBody={handleChangeBody}
-                />
-                <div className={styles.commentButtons}>
-                  <button
-                    className={styles.closeButton}
-                    type="button"
-                    onClick={closeIssue}
-                  >
-                    {issue.state === "open" ? "Close issue" : "Reopen issue"}
-                  </button>
-                  <Button disabled={body === ""}>Comment</Button>
-                </div>
+              <div className={styles.commentButtons}>
+                <button
+                  className={styles.closeButton}
+                  type="button"
+                  onClick={closeIssue}
+                >
+                  {issue.state === "open" ? "Close issue" : "Reopen issue"}
+                </button>
+                <Button disabled={body === ""}>Comment</Button>
               </div>
             </div>
           </div>
-        </form>
-      </div>
-    );
-  }
+        </div>
+      </form>
+    </div>
+  );
 }
 
 class Issue extends Component {
