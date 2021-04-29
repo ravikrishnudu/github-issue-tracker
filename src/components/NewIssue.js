@@ -7,20 +7,9 @@ export default function NewIssue() {
   const [title, setTitle] = useState("");
   const [body, setBody] = useState("");
 
-  // handleChange = (event) => {
-  //   this.setState({ title: event.target.value });
-  // };
-  // const handleChangeBody = (event) => {
-  //   setBody(event.target.value);
-  // };
-
   const handleSubmit = async (event) => {
     event.preventDefault();
-    // const { title, body } = this.state;
-    console.log(title, body);
     const issue = {
-      owner: "ravikrishnudu",
-      repo: "git",
       title: title,
       body: body,
     };
@@ -41,8 +30,6 @@ export default function NewIssue() {
         console.error("Error:", error);
       });
   };
-  // const { title, body } = this.state;
-  // console.log(title, "title", body);
   return (
     <>
       <form onSubmit={handleSubmit}>

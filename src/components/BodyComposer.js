@@ -13,24 +13,6 @@ export default function BodyComposer({ body, handleChangeBody, handleSubmit }) {
     }
   };
 
-  // handleKeyDown = (e) => {
-  //   console.log(e);
-  //   if (e.ctrlKey && e.code === "Enter" && this.props.handleSubmit) {
-  //     this.props.handleSubmit(e);
-  //   }
-  // };
-
-  // handlePreview = () => {
-  //   this.setState({ preview: true });
-  // };
-
-  // handleWrite = () => {
-  //   this.setState({ preview: false });
-  // };
-
-  // const { preview } = this.state;
-  // const { body, handleChangeBody } = this.props;
-  // console.log(this.props);
   return (
     <div className={styles.tabContainer}>
       <div className={styles.commentTabNav}>

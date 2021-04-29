@@ -44,16 +44,11 @@ export default function CommentContainer({
   id,
   fetchComments,
   number,
-  closeBodyComposer,
 }) {
   const [editComment, setEditComment] = useState(false);
-  const [boody, setBoody] = useState(body);
-  // constructor(props) {
-  //   super(props);
-  //   this.state = { editComment: false, body: props.body };
-  // }
+  const [commentBody, setCommentBody] = useState(() => body);
+  console.log(commentBody);
   const handleDelete = () => {
-    // const { id, fetchComments } = this.props;
     const deleteComment = {
       owner: "ravikrishnudu",
       repo: "git",
@@ -81,33 +76,19 @@ export default function CommentContainer({
         console.error("Error:", error);
       });
   };
-  //  handleEdit = () => {
-  //   this.setState({ editComment: true });
-  // };
-  // const handleEdit = () => {
-  //   setEditComment(true);
-  // };
-  // handleChangeBody = (event) => {
-  //   this.setState({ body: event.target.value });
-  // };
 
-  // const handleChangeBody = (event) => {
-  //   setCommentBody(event.target.value);
-  // };
   const handleSubmit = async (event) => {
     event.preventDefault();
-    // const { body } = this.state;
-    // const { id, fetchComments, type, number } = this.props;
     const data = {
-      body: body,
+      body: commentBody,
     };
     if (type === "issue") {
       const issueData = {
-        body: body,
+        body: commentBody,
       };
       updateIssue(number, issueData)
         .then((data) => {
-          closeBodyComposer();
+          setEditComment(false);
         })
         .catch((error) => {
           console.log(error);
@@ -115,7 +96,7 @@ export default function CommentContainer({
     } else {
       updateComment(id, data)
         .then((data) => {
-          closeBodyComposer();
+          setEditComment(false);
           console.log("Success:", data);
           setTimeout(() => {
             fetchComments();
@@ -126,15 +107,6 @@ export default function CommentContainer({
         });
     }
   };
-  // closeBodyComposer = () => {
-  //   this.setState({ editComment: false });
-  // };
-  // const closeBodyComposer = () => {
-  //   setEditComment(false);
-  // };
-  // render() {
-  //   const { editComment, body } = this.state;
-  //   const { updated_at, user, type } = this.props;
 
   return (
     <div className={styles.commentContainer}>
@@ -156,9 +128,6 @@ export default function CommentContainer({
                   </div>
                 </div>
                 <div className={styles.listBox}>
-                  {/* <button onClick={this.handleEdit}>Edit</button> */}
-                  {/* <button onClick={this.handleDelete}>delete</button> */}
-
                   <Listbox defaultValue="...">
                     <ListboxOption value="...">....</ListboxOption>
                     <ListboxOption
@@ -199,8 +168,8 @@ export default function CommentContainer({
         <form onSubmit={handleSubmit}>
           <div className={styles.commentBody}>
             <BodyComposer
-              body={body}
-              handleChangeBody={(event) => setBoody(event.target.value)}
+              body={commentBody}
+              handleChangeBody={(event) => setCommentBody(event.target.value)}
             />
             <div className={styles.BodyComposerButtons}>
               <button

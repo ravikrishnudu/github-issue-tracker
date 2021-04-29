@@ -18,7 +18,6 @@ function Repository({ repo }) {
           <Link className={styles.repoName}>{repo.name}</Link>
           <div className={styles.repoDescription}>{repo.description}</div>
           <div className={styles.repodetails}>
-            {/* <span>{repo.forks_}</span> */}
             <span>{repo.license?.name}</span>
             <span>
               Updated {formatDistance(Date.now(), parseISO(repo.updated_at))}{" "}

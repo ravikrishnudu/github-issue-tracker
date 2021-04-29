@@ -17,7 +17,6 @@ async function getIssues(page) {
 }
 
 function Issue({ issue }) {
-  // console.log(issue);
   return (
     <div className={styles.issueContainer}>
       <div className={styles.issue}>
@@ -49,7 +48,7 @@ function Issue({ issue }) {
 export default function Issues() {
   const [issues, setIssues] = useState(null);
   const [page, setPage] = useState(1);
-  const [pages, setPages] = useState([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
+  const pages = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
   useEffect(() => {
     getIssues(page).then((issues) => {
@@ -60,8 +59,7 @@ export default function Issues() {
   if (!issues) {
     return <div>Lodaing...</div>;
   }
-  // console.log(issues);
-  // console.log(page);
+
   // eslint-disable-next-line
   // console.log(process.env.REACT_APP_TOKEN);
   return (

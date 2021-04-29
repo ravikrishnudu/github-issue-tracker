@@ -30,14 +30,6 @@ async function getComments(issueNumber) {
   ).then((res) => res.json());
 }
 
-// async function getLabels() {
-//   return fetch(`https://api.github.com/repos/ravikrishnudu/git/labels`, {
-//     headers: {
-//       Authorization: `Bearer ${process.env.REACT_APP_TOKEN}`,
-//     },
-//   }).then((res) => res.json());
-// }
-
 function IssueDetails({
   issue: { title, number, user, updated_at, comments, state },
 }) {
@@ -74,11 +66,6 @@ function IssueDetails({
 }
 
 function DiscussionSideBar({ issue }) {
-  // const [labels, setLables] = useState(null);
-  // useEffect(() => {
-  //   getLables().then((lables)=>{setLables(lables)})
-  // }, [])
-  // console.log(labels);
   return (
     <div className={styles.rightContainer}>
       <div className={styles.elementContainer}>
@@ -182,19 +169,11 @@ function Issue(props) {
   const [comments, setComments] = useState(null);
   const [body, setBody] = useState("");
 
-  // constructor(props) {
-  //   super(props);
-  //   this.state = {
-  //     issue: null,
-  //     comments: null,
-  //     body: "",
-  //   };
-  // }
-
   const fetchComments = () => {
     const number = props.match.params.number;
     getComments(number).then((comments) => {
-      setComments(comments, (body: ""));
+      setComments(comments);
+      setBody("");
     });
   };
   const fetchIssue = () => {
@@ -204,30 +183,14 @@ function Issue(props) {
     });
   };
 
-  // useEffect(() => {
-  //   ((setIssue(fetchIssue)),(setComments(fetchComments))
-  // }, [input])
-
   useEffect(() => {
-    setIssue(fetchIssue);
+    fetchIssue();
+    fetchComments();
   }, []);
-
-  useEffect(() => {
-    setComments(fetchComments);
-  }, []);
-  // componentDidMount() {
-  //   this.fetchIssue();
-  //   this.fetchComments();
-  // }
-
-  // handleChangeBody = (event) => {
-  //   this.setState({ body: event.target.value });
-  // };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    // const { body, issue } = this.state;
     const comment = {
       body: body,
     };
@@ -254,7 +217,6 @@ function Issue(props) {
   };
 
   const closeIssue = () => {
-    // const { issue } = this.state;
     const closedIssue = {
       state: issue.state !== "closed" ? "closed" : "open",
     };
@@ -270,21 +232,17 @@ function Issue(props) {
         body: JSON.stringify(closedIssue),
       }
     )
-      // .then((response) => response.json())
       .then((data) => {
-        this.fetchIssue();
+        fetchIssue();
       })
       .catch((error) => {
         console.error("Error:", error);
       });
   };
 
-  // const number = this.props.match.params.number;
-  // const { issue, comments, body } = this.state;
   if (!issue || !comments) {
     return <div>Loading....</div>;
   }
-  console.log(comments);
   return (
     <div className={styles.mainContainer}>
       <IssueDetails issue={issue} />

@@ -4,21 +4,17 @@ import Repositories from "./Repositories";
 import styles from "./User.module.css";
 
 async function getUser(username) {
-  try {
-    const responce = await fetch(
-      `${process.env.REACT_APP_API_URL}/users/${username}`
-    );
-    return responce.json();
-  } catch (error) {}
+  return fetch(
+    `${process.env.REACT_APP_API_URL}/users/${username}`
+  ).then((res) => res.json());
 }
 
 export default function User(props) {
   const [user, setUser] = useState(undefined);
 
   const username = props.match.params.username;
-  useEffect(async () => {
-    const user = await getUser(username);
-    setUser(user);
+  useEffect(() => {
+    getUser(username).then((user) => setUser(user));
   }, [username]);
 
   if (user === undefined || !Repositories) {
