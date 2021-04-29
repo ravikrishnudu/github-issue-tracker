@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { useState } from "react";
 import { formatDistance, parseISO } from "date-fns";
 import { Listbox, ListboxOption } from "@reach/listbox";
 import "@reach/listbox/styles.css";
@@ -36,13 +36,24 @@ function updateIssue(number, issueData) {
     }
   );
 }
-export default class CommentContainer extends Component {
-  constructor(props) {
-    super(props);
-    this.state = { editComment: false, body: props.body };
-  }
-  handleDelete = () => {
-    const { id, fetchComments } = this.props;
+export default function CommentContainer({
+  body,
+  updated_at,
+  user,
+  type,
+  id,
+  fetchComments,
+  number,
+  closeBodyComposer,
+}) {
+  const [editComment, setEditComment] = useState(false);
+  const [boody, setBoody] = useState(body);
+  // constructor(props) {
+  //   super(props);
+  //   this.state = { editComment: false, body: props.body };
+  // }
+  const handleDelete = () => {
+    // const { id, fetchComments } = this.props;
     const deleteComment = {
       owner: "ravikrishnudu",
       repo: "git",
@@ -70,16 +81,23 @@ export default class CommentContainer extends Component {
         console.error("Error:", error);
       });
   };
-  handleEdit = () => {
-    this.setState({ editComment: true });
-  };
-  handleChangeBody = (event) => {
-    this.setState({ body: event.target.value });
-  };
-  handleSubmit = async (event) => {
+  //  handleEdit = () => {
+  //   this.setState({ editComment: true });
+  // };
+  // const handleEdit = () => {
+  //   setEditComment(true);
+  // };
+  // handleChangeBody = (event) => {
+  //   this.setState({ body: event.target.value });
+  // };
+
+  // const handleChangeBody = (event) => {
+  //   setCommentBody(event.target.value);
+  // };
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    const { body } = this.state;
-    const { id, fetchComments, type, number } = this.props;
+    // const { body } = this.state;
+    // const { id, fetchComments, type, number } = this.props;
     const data = {
       body: body,
     };
@@ -89,7 +107,7 @@ export default class CommentContainer extends Component {
       };
       updateIssue(number, issueData)
         .then((data) => {
-          this.closeBodyComposer();
+          closeBodyComposer();
         })
         .catch((error) => {
           console.log(error);
@@ -97,7 +115,7 @@ export default class CommentContainer extends Component {
     } else {
       updateComment(id, data)
         .then((data) => {
-          this.closeBodyComposer();
+          closeBodyComposer();
           console.log("Success:", data);
           setTimeout(() => {
             fetchComments();
@@ -108,94 +126,94 @@ export default class CommentContainer extends Component {
         });
     }
   };
-  closeBodyComposer = () => {
-    this.setState({ editComment: false });
-  };
-  render() {
-    const { editComment, body } = this.state;
-    const { updated_at, user, type } = this.props;
+  // closeBodyComposer = () => {
+  //   this.setState({ editComment: false });
+  // };
+  // const closeBodyComposer = () => {
+  //   setEditComment(false);
+  // };
+  // render() {
+  //   const { editComment, body } = this.state;
+  //   const { updated_at, user, type } = this.props;
 
-    return (
-      <div className={styles.commentContainer}>
-        <img
-          className={styles.userImage}
-          src={user.avatar_url}
-          alt="user profile logo"
-        />
-        {!editComment ? (
-          <>
-            <div className={styles.leftArrow}>
-              <div className={styles.commentBody}>
-                <div className={styles.issueCommentHead}>
-                  <div className={styles.issueCommentDetails}>
-                    <div className={styles.userLogin}>{user.login} </div>
-                    <div>
-                      commented{" "}
-                      {formatDistance(Date.now(), parseISO(updated_at))} ago
-                    </div>
-                  </div>
-                  <div className={styles.listBox}>
-                    {/* <button onClick={this.handleEdit}>Edit</button> */}
-                    {/* <button onClick={this.handleDelete}>delete</button> */}
-
-                    <Listbox defaultValue="ravi">
-                      <ListboxOption value="ravi">....</ListboxOption>
-                      <ListboxOption
-                        className={styles.listBoxOption}
-                        value="edit"
-                        onClick={this.handleEdit}
-                      >
-                        Edit
-                      </ListboxOption>
-                      <ListboxOption
-                        className={styles.listBoxOption}
-                        value="hide"
-                      >
-                        Hide
-                      </ListboxOption>
-                      {type === "comment" ? (
-                        <ListboxOption
-                          onClick={this.handleDelete}
-                          className={styles.listBoxOption}
-                          value="delete"
-                        >
-                          Delete
-                        </ListboxOption>
-                      ) : null}
-                    </Listbox>
-                  </div>
-                </div>
-
-                <div>
-                  <div className={styles.leftContainer}>
-                    <Markdown body={body} />
-                  </div>
-                </div>
-              </div>
-            </div>
-          </>
-        ) : (
-          <form onSubmit={this.handleSubmit}>
+  return (
+    <div className={styles.commentContainer}>
+      <img
+        className={styles.userImage}
+        src={user.avatar_url}
+        alt="user profile logo"
+      />
+      {!editComment ? (
+        <>
+          <div className={styles.leftArrow}>
             <div className={styles.commentBody}>
-              <BodyComposer
-                // handleSubmit={handleSubmit}
-                body={body}
-                // body={this.props.body}
-                handleChangeBody={this.handleChangeBody}
-              />
-              <div className={styles.BodyComposerButtons}>
-                <button
-                  className={styles.cancelButton}
-                  onClick={this.closeBodyComposer}
-                >
-                  Cancel
-                </button>
-                <Button>Update Commment</Button>
+              <div className={styles.issueCommentHead}>
+                <div className={styles.issueCommentDetails}>
+                  <div className={styles.userLogin}>{user.login} </div>
+                  <div>
+                    commented {formatDistance(Date.now(), parseISO(updated_at))}{" "}
+                    ago
+                  </div>
+                </div>
+                <div className={styles.listBox}>
+                  {/* <button onClick={this.handleEdit}>Edit</button> */}
+                  {/* <button onClick={this.handleDelete}>delete</button> */}
+
+                  <Listbox defaultValue="...">
+                    <ListboxOption value="...">....</ListboxOption>
+                    <ListboxOption
+                      className={styles.listBoxOption}
+                      value="edit"
+                      onClick={() => setEditComment(true)}
+                    >
+                      Edit
+                    </ListboxOption>
+                    <ListboxOption
+                      className={styles.listBoxOption}
+                      value="hide"
+                    >
+                      Hide
+                    </ListboxOption>
+                    {type === "comment" ? (
+                      <ListboxOption
+                        onClick={handleDelete}
+                        className={styles.listBoxOption}
+                        value="delete"
+                      >
+                        Delete
+                      </ListboxOption>
+                    ) : null}
+                  </Listbox>
+                </div>
+              </div>
+
+              <div>
+                <div className={styles.leftContainer}>
+                  <Markdown body={body} />
+                </div>
               </div>
             </div>
-          </form>
-        )}
-      </div>
-    );
-  }
+          </div>
+        </>
+      ) : (
+        <form onSubmit={handleSubmit}>
+          <div className={styles.commentBody}>
+            <BodyComposer
+              body={body}
+              handleChangeBody={(event) => setBoody(event.target.value)}
+            />
+            <div className={styles.BodyComposerButtons}>
+              <button
+                className={styles.cancelButton}
+                onClick={() => setEditComment(false)}
+              >
+                Cancel
+              </button>
+              <Button>Update Commment</Button>
+            </div>
+          </div>
+        </form>
+      )}
+    </div>
+  );
 }
