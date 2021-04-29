@@ -1,4 +1,4 @@
-import React, { Component, useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { formatDistance, parseISO } from "date-fns";
 
 import Labels from "./Labels";
@@ -177,42 +177,57 @@ function NewComment({
   );
 }
 
-class Issue extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      issue: null,
-      comments: null,
-      body: "",
-    };
-  }
+function Issue(props) {
+  const [issue, setIssue] = useState(null);
+  const [comments, setComments] = useState(null);
+  const [body, setBody] = useState("");
 
-  fetchComments = () => {
-    const number = this.props.match.params.number;
+  // constructor(props) {
+  //   super(props);
+  //   this.state = {
+  //     issue: null,
+  //     comments: null,
+  //     body: "",
+  //   };
+  // }
+
+  const fetchComments = () => {
+    const number = props.match.params.number;
     getComments(number).then((comments) => {
-      this.setState({ comments, body: " " });
+      setComments(comments, (body: ""));
     });
   };
-  fetchIssue = () => {
-    const number = this.props.match.params.number;
+  const fetchIssue = () => {
+    const number = props.match.params.number;
     getIssue(number).then((issue) => {
-      this.setState({ issue });
+      setIssue(issue);
     });
   };
 
-  componentDidMount() {
-    this.fetchIssue();
-    this.fetchComments();
-  }
+  // useEffect(() => {
+  //   ((setIssue(fetchIssue)),(setComments(fetchComments))
+  // }, [input])
 
-  handleChangeBody = (event) => {
-    this.setState({ body: event.target.value });
-  };
+  useEffect(() => {
+    setIssue(fetchIssue);
+  }, []);
 
-  handleSubmit = async (event) => {
+  useEffect(() => {
+    setComments(fetchComments);
+  }, []);
+  // componentDidMount() {
+  //   this.fetchIssue();
+  //   this.fetchComments();
+  // }
+
+  // handleChangeBody = (event) => {
+  //   this.setState({ body: event.target.value });
+  // };
+
+  const handleSubmit = async (event) => {
     event.preventDefault();
 
-    const { body, issue } = this.state;
+    // const { body, issue } = this.state;
     const comment = {
       body: body,
     };
@@ -231,15 +246,15 @@ class Issue extends Component {
       .then((response) => response.json())
       .then((data) => {
         console.log(data);
-        this.fetchComments();
+        fetchComments();
       })
       .catch((error) => {
         console.error("Error:", error);
       });
   };
 
-  closeIssue = () => {
-    const { issue } = this.state;
+  const closeIssue = () => {
+    // const { issue } = this.state;
     const closedIssue = {
       state: issue.state !== "closed" ? "closed" : "open",
     };
@@ -264,47 +279,45 @@ class Issue extends Component {
       });
   };
 
-  render() {
-    // const number = this.props.match.params.number;
-    const { issue, comments, body } = this.state;
-    if (!issue || !comments) {
-      return <div>Loading....</div>;
-    }
-    console.log(comments);
-    return (
-      <div className={styles.mainContainer}>
-        <IssueDetails issue={issue} />
-        <div className={styles.bodyContainer}>
-          <div>
-            <CommentContainer {...issue} type="issue" />
-
-            <div className={styles.comments}>
-              {comments.map((comment) => (
-                <CommentContainer
-                  {...comment}
-                  type="comment"
-                  key={comment.id}
-                  issue={issue}
-                  fetchComments={this.fetchComments}
-                />
-              ))}
-            </div>
-            <div className={styles.newComment}>
-              <NewComment
-                body={body}
-                issue={issue}
-                issueNumber={issue.number}
-                handleChangeBody={this.handleChangeBody}
-                handleSubmit={this.handleSubmit}
-                closeIssue={this.closeIssue}
-              />
-            </div>
-          </div>
-          <DiscussionSideBar issue={issue} />
-        </div>
-      </div>
-    );
+  // const number = this.props.match.params.number;
+  // const { issue, comments, body } = this.state;
+  if (!issue || !comments) {
+    return <div>Loading....</div>;
   }
+  console.log(comments);
+  return (
+    <div className={styles.mainContainer}>
+      <IssueDetails issue={issue} />
+      <div className={styles.bodyContainer}>
+        <div>
+          <CommentContainer {...issue} type="issue" />
+
+          <div className={styles.comments}>
+            {comments.map((comment) => (
+              <CommentContainer
+                {...comment}
+                type="comment"
+                key={comment.id}
+                issue={issue}
+                fetchComments={fetchComments}
+              />
+            ))}
+          </div>
+          <div className={styles.newComment}>
+            <NewComment
+              body={body}
+              issue={issue}
+              issueNumber={issue.number}
+              handleChangeBody={(event) => setBody(event.target.value)}
+              handleSubmit={handleSubmit}
+              closeIssue={closeIssue}
+            />
+          </div>
+        </div>
+        <DiscussionSideBar issue={issue} />
+      </div>
+    </div>
+  );
 }
 
 export default Issue;

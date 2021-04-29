@@ -7,7 +7,7 @@ import Labels from "./Labels";
 
 async function getIssues(page) {
   return fetch(
-    `https://api.github.com/ravikrishnudu/git/react/issues?page=${page}`,
+    `https://api.github.com/repos/ravikrishnudu/git/issues?page=${page}`,
     {
       headers: {
         Authorization: `Bearer ${process.env.REACT_APP_TOKEN}`,
@@ -61,7 +61,7 @@ export default function Issues() {
     return <div>Lodaing...</div>;
   }
   // console.log(issues);
-  console.log(page);
+  // console.log(page);
   // eslint-disable-next-line
   // console.log(process.env.REACT_APP_TOKEN);
   return (

@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 import { LabelText } from "./Text";
 import styles from "./Labels.module.css";
 

@@ -10,8 +10,7 @@ async function getRepos() {
   ).then((res) => res.json());
 }
 
-function Repository({ repo, isRepo: { id } }) {
-  console.log(id);
+function Repository({ repo }) {
   return (
     <>
       <div className={styles.repoContainer}>
@@ -45,7 +44,7 @@ export default function Repositories() {
   return (
     <div>
       {repos.map((repo) => (
-        <Repository repo={repo} isRepo={{ id: 1 }} key={repo.id} />
+        <Repository repo={repo} key={repo.id} />
       ))}
     </div>
   );

@@ -1,26 +1,22 @@
-import React, { Component } from "react";
+import React, { useState } from "react";
 import styles from "./NewIssue.module.css";
 import BodyComposer from "./BodyComposer";
 import Button from "./Button";
 
-export default class NewIssue extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      title: "",
-      body: "",
-    };
-  }
+export default function NewIssue() {
+  const [title, setTitle] = useState("");
+  const [body, setBody] = useState("");
 
-  handleChange = (event) => {
-    this.setState({ title: event.target.value });
-  };
-  handleChangeBody = (event) => {
-    this.setState({ body: event.target.value });
-  };
-  handleSubmit = async (event) => {
+  // handleChange = (event) => {
+  //   this.setState({ title: event.target.value });
+  // };
+  // const handleChangeBody = (event) => {
+  //   setBody(event.target.value);
+  // };
+
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    const { title, body } = this.state;
+    // const { title, body } = this.state;
     console.log(title, body);
     const issue = {
       owner: "ravikrishnudu",
@@ -45,46 +41,43 @@ export default class NewIssue extends Component {
         console.error("Error:", error);
       });
   };
-
-  render() {
-    const { title, body } = this.state;
-    // console.log(title, "title", body);
-    return (
-      <>
-        <form onSubmit={this.handleSubmit}>
-          <div className={styles.commentWrapper}>
-            <div>
-              <img
-                className={styles.avatarUrl}
-                alt="profile -img"
-                src="https://avatars.githubusercontent.com/u/52109411?s=80&v=4"
-              />
-            </div>
-            <div className={styles.leftArrow}>
-              <div className={styles.commentBox}>
-                <div className={styles.inputSurrounding}>
-                  <input
-                    className={styles.titleInput}
-                    placeholder="Title"
-                    value={title}
-                    onChange={(event) => this.handleChange(event)}
-                  />
-                </div>
-                <BodyComposer
-                  body={body}
-                  handleChangeBody={this.handleChangeBody}
+  // const { title, body } = this.state;
+  // console.log(title, "title", body);
+  return (
+    <>
+      <form onSubmit={handleSubmit}>
+        <div className={styles.commentWrapper}>
+          <div>
+            <img
+              className={styles.avatarUrl}
+              alt="profile -img"
+              src="https://avatars.githubusercontent.com/u/52109411?s=80&v=4"
+            />
+          </div>
+          <div className={styles.leftArrow}>
+            <div className={styles.commentBox}>
+              <div className={styles.inputSurrounding}>
+                <input
+                  className={styles.titleInput}
+                  placeholder="Title"
+                  value={title}
+                  onChange={(event) => setTitle(event.target.value)}
                 />
-                <div className={styles.markdownButton}>
-                  <span className={styles.markdownText}>
-                    Styling with Markdown is supported
-                  </span>
-                  <Button disabled={title === ""}>Submit new issue</Button>
-                </div>
+              </div>
+              <BodyComposer
+                body={body}
+                handleChangeBody={(event) => setBody(event.target.value)}
+              />
+              <div className={styles.markdownButton}>
+                <span className={styles.markdownText}>
+                  Styling with Markdown is supported
+                </span>
+                <Button disabled={title === ""}>Submit new issue</Button>
               </div>
             </div>
           </div>
-        </form>
-      </>
-    );
-  }
+        </div>
+      </form>
+    </>
+  );
 }
