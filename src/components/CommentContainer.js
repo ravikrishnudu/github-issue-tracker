@@ -70,7 +70,7 @@ export default function CommentContainer({
     )
       .then((data) => {
         console.log("Succes:", data);
-        fetchComments();
+        fetchComments(number);
       })
       .catch((error) => {
         console.error("Error:", error);
@@ -99,7 +99,7 @@ export default function CommentContainer({
           setEditComment(false);
           console.log("Success:", data);
           setTimeout(() => {
-            fetchComments();
+            fetchComments(number);
           }, 30 * 1000);
         })
         .catch((error) => {

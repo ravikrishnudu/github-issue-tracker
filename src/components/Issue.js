@@ -169,24 +169,23 @@ function Issue(props) {
   const [comments, setComments] = useState(null);
   const [body, setBody] = useState("");
 
-  const fetchComments = () => {
-    const number = props.match.params.number;
+  const number = props.match.params.number;
+  const fetchComments = (number) => {
     getComments(number).then((comments) => {
       setComments(comments);
       setBody("");
     });
   };
-  const fetchIssue = () => {
-    const number = props.match.params.number;
+  const fetchIssue = (number) => {
     getIssue(number).then((issue) => {
       setIssue(issue);
     });
   };
 
   useEffect(() => {
-    fetchIssue();
-    fetchComments();
-  }, []);
+    fetchIssue(number);
+    fetchComments(number);
+  }, [number]);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -209,7 +208,7 @@ function Issue(props) {
       .then((response) => response.json())
       .then((data) => {
         console.log(data);
-        fetchComments();
+        fetchComments(number);
       })
       .catch((error) => {
         console.error("Error:", error);
@@ -233,7 +232,7 @@ function Issue(props) {
       }
     )
       .then((data) => {
-        fetchIssue();
+        fetchIssue(number);
       })
       .catch((error) => {
         console.error("Error:", error);
