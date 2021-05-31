@@ -1,61 +1,11 @@
 .App {
   font-family: sans-serif;
-  /* text-align: center; */
-  align-items: center;
   display: flex;
   justify-content: center;
+  text-align: center;
+  align-items: center;
   flex-direction: column;
-  overflow: hidden;
 }
-
-.heading {
-  font-size: 150px;
-  color: rgba(175, 47, 47, 0.15);
-}
-.inputCheck {
-  width: 500px;
-  height: 50px;
-  border-radius: 10px;
+.container {
   padding: 10px;
-  border: none;
-  font-size: 33px;
-  box-shadow: 10px 5px 5px rgb(0 0 0 / 18%);
-}
-.submitValueButton {
-  font-size: 30px;
-  padding: 10px;
-  border-radius: 10px;
-  margin-left: 20px;
-}
-.listItems {
-  /* max-width: 54%; */
-  padding: 20px;
-  margin-top: 30px;
-  box-shadow: 10px 5px 5px rgb(0 0 0 / 18%);
-  /* margin-left: 750px; */
-  /* background-color: gray; */
-}
-.delete {
-  padding: 23px;
-  display: flex;
-  justify-content: space-between;
-}
-.checkbox {
-  /* display: flex; */
-  /* margin-left: 15PX; */
-  /* justify-content: space-between; */
-}
-.footerButtons {
-  font-size: 15px;
-  padding: 8px;
-  background-color: white;
-  border-style: none;
-  border-radius: 1px solid lightpink;
-}
-
-.destroy {
-  color: #cc9a9a;
-  opacity: 1;
-
-  transition: color 0.2s ease-out;
 }
