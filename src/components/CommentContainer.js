@@ -47,6 +47,7 @@ export default function CommentContainer({
 }) {
   const [editComment, setEditComment] = useState(false);
   const [commentBody, setCommentBody] = useState(() => body);
+
   console.log(commentBody);
   const handleDelete = () => {
     const deleteComment = {

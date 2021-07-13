@@ -2,10 +2,12 @@ import React, { useState } from "react";
 import styles from "./NewIssue.module.css";
 import BodyComposer from "./BodyComposer";
 import Button from "./Button";
+import { useHistory } from "react-router";
 
 export default function NewIssue() {
   const [title, setTitle] = useState("");
   const [body, setBody] = useState("");
+  let history = useHistory();
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -25,11 +27,13 @@ export default function NewIssue() {
       .then((response) => response.json())
       .then((data) => {
         console.log("Success:", data);
+        history.push("/");
       })
       .catch((error) => {
         console.error("Error:", error);
       });
   };
+
   return (
     <>
       <form onSubmit={handleSubmit}>
@@ -59,6 +63,7 @@ export default function NewIssue() {
                 <span className={styles.markdownText}>
                   Styling with Markdown is supported
                 </span>
+
                 <Button disabled={title === ""}>Submit new issue</Button>
               </div>
             </div>

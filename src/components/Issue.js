@@ -242,6 +242,7 @@ function Issue(props) {
   if (!issue || !comments) {
     return <div>Loading....</div>;
   }
+  
   return (
     <div className={styles.mainContainer}>
       <IssueDetails issue={issue} />
