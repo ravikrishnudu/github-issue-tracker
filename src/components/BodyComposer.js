@@ -71,18 +71,6 @@ export default function BodyComposer({ body, handleChangeBody, handleSubmit }) {
           </div>
         )}
       </div>
-      Currently, I'm looking for a job I did have work experienceYes, I'm
-      looking for a full-time job opportunity I start work immediately Hourly
-      rate: 300 INRCountry: India, timezone: IST (GMT + 5:30)I'm Flexible with
-      work TimingsFrontend developer: ReactJs, JavaScript,HTML, CSShad knowledge
-      on backend: NodeJs ExpressJs  yesWhat is your total work experience? How
-      much of that is relevant to this job?Are you available for full-time work
-      (40 hrs/week)? If not, how many hours are you available?   How soon can
-      you start?What is your hourly rate in your local currency?Which country
-      and timezone are you in?Are you flexible with work timings? If not, what
-      is your preferred work time?What are your primary skill sets?Do you
-      authorize me to represent you to our prospective clients and share your
-      profile with them? 
     </div>
   );
 }
